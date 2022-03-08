@@ -1,0 +1,22 @@
+{
+  "name": "@openreachtech/renchan-env",
+  "version": "0.0.0",
+  "description": "Env module - Renchan",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openreachtech/renchan-env.git"
+  },
+  "keywords": [
+    "Renchan"
+  ],
+  "author": "Open Reach Tech",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/openreachtech/renchan-env/issues"
+  },
+  "homepage": "https://github.com/openreachtech/renchan-env#readme"
+}
