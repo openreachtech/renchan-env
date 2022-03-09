@@ -4,6 +4,7 @@
   "description": "Env module - Renchan",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint .",
     "test": "export NODE_ENV=development; jest --forceExit --detectOpenHandles"
   },
   "repository": {
