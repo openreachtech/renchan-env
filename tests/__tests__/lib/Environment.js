@@ -110,4 +110,48 @@ describe('Environment', () => {
       expect(env.dotenv).toEqual(expected)
     })
   })
+
+  describe('#processEnv', () => {
+    const cases = [
+      {
+        envHash: null,
+        expected: developmentProcessEnv,
+      },
+      {
+        envHash: {},
+        expected: developmentProcessEnv,
+      },
+      {
+        envHash: {
+          dotenv: extraDotenv
+        },
+        expected: developmentProcessEnv,
+      },
+      {
+        envHash: {
+          processEnv: extraProcessEnv
+        },
+        expected: extraProcessEnv,
+      },
+      {
+        envHash: {
+          dotenv: stagingDotenv,
+          processEnv: extraProcessEnv
+        },
+        expected: extraProcessEnv,
+      },
+    ]
+
+    test.each(cases)('$envHash', ({
+      envHash,
+      expected
+    }) => {
+      const env = envHash
+        ? new Environment(envHash)
+        : new Environment()
+
+      expect(env.processEnv.NODE_ENV).toEqual(expected.NODE_ENV)
+      expect(env.processEnv.APP_NAME).toEqual(expected.APP_NAME)
+    })
+  })
 })
