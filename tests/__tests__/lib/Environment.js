@@ -154,4 +154,65 @@ describe('Environment', () => {
       expect(env.processEnv.APP_NAME).toEqual(expected.APP_NAME)
     })
   })
+
+  describe('#env', () => {
+    const cases = [
+      {
+        envHash: null,
+        expected: {
+          ...developmentDotenv,
+          ...developmentProcessEnv,
+        },
+      },
+      {
+        envHash: {},
+        expected: {
+          ...developmentDotenv,
+          ...developmentProcessEnv,
+        },
+      },
+      {
+        envHash: {
+          dotenv: extraDotenv
+        },
+        expected: {
+          ...extraDotenv,
+          ...developmentProcessEnv,
+        },
+      },
+      {
+        envHash: {
+          processEnv: extraProcessEnv
+        },
+        expected: {
+          ...extraDotenv,
+          ...extraProcessEnv,
+        },
+      },
+      {
+        envHash: {
+          dotenv: stagingDotenv,
+          processEnv: extraProcessEnv
+        },
+        expected: {
+          ...stagingDotenv,
+          ...extraProcessEnv,
+        },
+      },
+    ]
+
+    test.each(cases)('$envHash, $expected', ({
+      envHash,
+      expected
+    }) => {
+      const env = envHash
+        ? new Environment(envHash)
+        : new Environment()
+
+      expect(env.env.NODE_ENV).toEqual(expected.NODE_ENV)
+      expect(env.env.APP_NAME).toEqual(expected.APP_NAME)
+      expect(env.env.API_HOST).toEqual(expected.API_HOST)
+      expect(env.env.API_KEY).toEqual(expected.API_KEY)
+    })
+  })
 })
