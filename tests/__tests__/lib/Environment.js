@@ -215,4 +215,61 @@ describe('Environment', () => {
       expect(env.env.API_KEY).toEqual(expected.API_KEY)
     })
   })
+
+  describe('#env to overwrite App Name', () => {
+    const APP_NAME_EXPORTED_IN_TERMINAL = 'App Name Exported in Terminal'
+
+    const cases = [
+      {
+        envHash: null,
+        expected: APP_NAME_EXPORTED_IN_TERMINAL,
+      },
+      {
+        envHash: {},
+        expected: APP_NAME_EXPORTED_IN_TERMINAL,
+      },
+      {
+        envHash: {
+          dotenv: {
+            ...extraDotenv,
+            APP_NAME: 'App Name will be overwritten',
+          }
+        },
+        expected: APP_NAME_EXPORTED_IN_TERMINAL,
+      },
+      {
+        envHash: {
+          processEnv: {
+            ...extraProcessEnv,
+            APP_NAME: 'App Name will be shown 001'
+          }
+        },
+        expected: 'App Name will be shown 001',
+      },
+      {
+        envHash: {
+          dotenv: {
+            ...stagingDotenv,
+            APP_NAME: 'App Name will be overwritten',
+          },
+          processEnv: {
+            ...extraProcessEnv,
+            APP_NAME: 'App Name will be shown 002'
+          }
+        },
+        expected: 'App Name will be shown 002',
+      },
+    ]
+
+    test.each(cases)('$envHash, $expected', ({
+      envHash,
+      expected
+    }) => {
+      const env = envHash
+        ? new Environment(envHash)
+        : new Environment()
+
+      expect(env.env.APP_NAME).toEqual(expected)
+    })
+  })
 })

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint . --rulesdir 'eslint/rules/'",
-    "test": "export NODE_ENV=development; jest --forceExit --detectOpenHandles"
+    "test": "export NODE_ENV=development; export APP_NAME='App Name Exported in Terminal'; jest --forceExit --detectOpenHandles"
   },
   "repository": {
     "type": "git",
