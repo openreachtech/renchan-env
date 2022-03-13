@@ -286,4 +286,25 @@ describe('Environment', () => {
         .toThrowError(errorMessage)
     })
   })
+
+  describe('#NODE_ENV', () => {
+    const cases = [
+      [null, 'development'],
+      ['development', 'development'],
+      ['staging', 'staging'],
+      ['extra', 'extra'],
+    ]
+
+    test.each(cases)('%s', (nodeEnv, expectedNodeEnv) => {
+      const env = nodeEnv
+        ? new Environment({
+          processEnv: {
+            NODE_ENV: nodeEnv
+          }
+        })
+        : new Environment()
+
+      expect(env.NODE_ENV).toBe(expectedNodeEnv)
+    })
+  })
 })
