@@ -67,4 +67,47 @@ describe('Environment', () => {
       expect(env instanceof Environment).toBeTruthy()
     })
   })
+
+  describe('#dotenv', () => {
+    const cases = [
+      {
+        envHash: null,
+        expected: developmentDotenv,
+      },
+      {
+        envHash: {},
+        expected: developmentDotenv,
+      },
+      {
+        envHash: {
+          dotenv: extraDotenv
+        },
+        expected: extraDotenv,
+      },
+      {
+        envHash: {
+          processEnv: extraProcessEnv
+        },
+        expected: extraDotenv,
+      },
+      {
+        envHash: {
+          dotenv: stagingDotenv,
+          processEnv: extraProcessEnv
+        },
+        expected: stagingDotenv,
+      },
+    ]
+
+    test.each(cases)('$envHash', ({
+      envHash,
+      expected
+    }) => {
+      const env = envHash
+        ? new Environment(envHash)
+        : new Environment()
+
+      expect(env.dotenv).toEqual(expected)
+    })
+  })
 })
