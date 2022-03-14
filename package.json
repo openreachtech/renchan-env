@@ -28,5 +28,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
     "jest": "^27.5.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0"
   }
 }
