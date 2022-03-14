@@ -140,4 +140,63 @@ describe('DotenvLoader', () => {
       })
     })
   })
+
+  describe('.load()', () => {
+    describe('throw exception', () => {
+      const cases = [
+        {
+          nodeEnv: 'notfound',
+          errorPattern: /^ENOENT: no such file or directory, open /
+        },
+      ]
+
+      test.each(cases)('%s', ({
+        nodeEnv,
+        errorPattern,
+      }) => {
+        expect(() => DotenvLoader.load(nodeEnv))
+          .toThrowError(errorPattern)
+      })
+    })
+
+    describe('with NODE_ENV', () => {
+      const cases = [
+        {
+          nodeEnv: 'production',
+          envBody: {
+            API_HOST: 'openreach.tech',
+            API_KEY: 'uhyouhyo',
+          }
+        },
+        {
+          nodeEnv: 'development',
+          envBody: {
+            API_HOST: 'dev.openreach.tech',
+            API_KEY: 'devdev',
+          }
+        },
+        {
+          nodeEnv: 'staging',
+          envBody: {
+            API_HOST: 'staging.openreach.tech',
+            API_KEY: 'staginguhyo',
+          }
+        },
+        {
+          nodeEnv: 'extra',
+          envBody: {
+            API_HOST: 'extra.openreach.tech',
+            API_KEY: 'extraextra',
+          }
+        },
+      ]
+
+      test.each(cases)('%s', ({
+        nodeEnv,
+        envBody
+      }) => {
+        expect(DotenvLoader.load(nodeEnv)).toEqual(envBody)
+      })
+    })
+  })
 })
