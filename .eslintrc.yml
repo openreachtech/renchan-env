@@ -46,6 +46,8 @@ rules:
   operator-linebreak:
     - error
     - before
+    - overrides:
+        =: after
   padding-line-between-statements:
     - error
     - blankLine: always
