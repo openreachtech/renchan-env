@@ -287,6 +287,67 @@ describe('Environment', () => {
     })
   })
 
+  describe('.createEnv()', () => {
+    const cases = [
+      {
+        envHash: null,
+        expected: {
+          ...developmentDotenv,
+          ...developmentProcessEnv,
+        },
+      },
+      {
+        envHash: {},
+        expected: {
+          ...developmentDotenv,
+          ...developmentProcessEnv,
+        },
+      },
+      {
+        envHash: {
+          dotenv: extraDotenv
+        },
+        expected: {
+          ...extraDotenv,
+          ...developmentProcessEnv,
+        },
+      },
+      {
+        envHash: {
+          processEnv: extraProcessEnv
+        },
+        expected: {
+          ...extraDotenv,
+          ...extraProcessEnv,
+        },
+      },
+      {
+        envHash: {
+          dotenv: stagingDotenv,
+          processEnv: extraProcessEnv
+        },
+        expected: {
+          ...stagingDotenv,
+          ...extraProcessEnv,
+        },
+      },
+    ]
+
+    test.each(cases)('$envHash, $expected', ({
+      envHash,
+      expected
+    }) => {
+      const env = envHash
+        ? Environment.createEnv(envHash)
+        : Environment.createEnv()
+
+      expect(env.NODE_ENV).toEqual(expected.NODE_ENV)
+      expect(env.APP_NAME).toEqual(expected.APP_NAME)
+      expect(env.API_HOST).toEqual(expected.API_HOST)
+      expect(env.API_KEY).toEqual(expected.API_KEY)
+    })
+  })
+
   describe('#NODE_ENV', () => {
     const cases = [
       [null, 'development'],
