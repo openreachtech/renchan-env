@@ -64,7 +64,7 @@ describe('AppEnv', () => {
       }))
 
       expect(() => appEnv.API_KEY)
-        .toThrowError('not found [API_KEY]')
+        .toThrowError('environment variable is not defined [API_KEY]')
     })
   })
 })

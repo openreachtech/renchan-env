@@ -275,8 +275,8 @@ describe('Environment', () => {
 
   describe('#env to throw exception with unknown key', () => {
     const cases = [
-      ['UNKNOWN_KEY', 'not found [UNKNOWN_KEY]'],
-      ['NONE_KEY', 'not found [NONE_KEY]'],
+      ['UNKNOWN_KEY', 'environment variable is not defined [UNKNOWN_KEY]'],
+      ['NONE_KEY', 'environment variable is not defined [NONE_KEY]'],
     ]
 
     test.each(cases)('%s', (key, errorMessage) => {
@@ -366,6 +366,69 @@ describe('Environment', () => {
         : new Environment()
 
       expect(env.NODE_ENV).toBe(expectedNodeEnv)
+    })
+  })
+
+  describe('#createProxyEnv()', () => {
+    const cases = [
+      {
+        envHash: null,
+        expected: {
+          ...developmentDotenv,
+          ...developmentProcessEnv,
+        },
+      },
+      {
+        envHash: {},
+        expected: {
+          ...developmentDotenv,
+          ...developmentProcessEnv,
+        },
+      },
+      {
+        envHash: {
+          dotenv: extraDotenv
+        },
+        expected: {
+          ...extraDotenv,
+          ...developmentProcessEnv,
+        },
+      },
+      {
+        envHash: {
+          processEnv: extraProcessEnv
+        },
+        expected: {
+          ...extraDotenv,
+          ...extraProcessEnv,
+        },
+      },
+      {
+        envHash: {
+          dotenv: stagingDotenv,
+          processEnv: extraProcessEnv
+        },
+        expected: {
+          ...stagingDotenv,
+          ...extraProcessEnv,
+        },
+      },
+    ]
+
+    test.each(cases)('%o', ({
+      envHash,
+      expected
+    }) => {
+      const env = envHash
+        ? new Environment(envHash)
+        : new Environment()
+
+      const proxyEnv = env.createProxyEnv()
+
+      expect(proxyEnv.NODE_ENV).toEqual(expected.NODE_ENV)
+      expect(proxyEnv.APP_NAME).toEqual(expected.APP_NAME)
+      expect(proxyEnv.API_HOST).toEqual(expected.API_HOST)
+      expect(proxyEnv.API_KEY).toEqual(expected.API_KEY)
     })
   })
 })
