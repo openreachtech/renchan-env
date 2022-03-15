@@ -44,7 +44,7 @@ describe('AppEnv', () => {
     })
   })
 
-  describe('thorw with lacked env', () => {
+  describe('throw with lacked env', () => {
     /** @type {Array} */
     const cases = [
       ['development'],
