@@ -368,4 +368,67 @@ describe('Environment', () => {
       expect(env.NODE_ENV).toBe(expectedNodeEnv)
     })
   })
+
+  describe('#createProxyEnv()', () => {
+    const cases = [
+      {
+        envHash: null,
+        expected: {
+          ...developmentDotenv,
+          ...developmentProcessEnv,
+        },
+      },
+      {
+        envHash: {},
+        expected: {
+          ...developmentDotenv,
+          ...developmentProcessEnv,
+        },
+      },
+      {
+        envHash: {
+          dotenv: extraDotenv
+        },
+        expected: {
+          ...extraDotenv,
+          ...developmentProcessEnv,
+        },
+      },
+      {
+        envHash: {
+          processEnv: extraProcessEnv
+        },
+        expected: {
+          ...extraDotenv,
+          ...extraProcessEnv,
+        },
+      },
+      {
+        envHash: {
+          dotenv: stagingDotenv,
+          processEnv: extraProcessEnv
+        },
+        expected: {
+          ...stagingDotenv,
+          ...extraProcessEnv,
+        },
+      },
+    ]
+
+    test.each(cases)('%o', ({
+      envHash,
+      expected
+    }) => {
+      const env = envHash
+        ? new Environment(envHash)
+        : new Environment()
+
+      const proxyEnv = env.createProxyEnv()
+
+      expect(proxyEnv.NODE_ENV).toEqual(expected.NODE_ENV)
+      expect(proxyEnv.APP_NAME).toEqual(expected.APP_NAME)
+      expect(proxyEnv.API_HOST).toEqual(expected.API_HOST)
+      expect(proxyEnv.API_KEY).toEqual(expected.API_KEY)
+    })
+  })
 })
