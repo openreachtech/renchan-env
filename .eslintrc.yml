@@ -18,8 +18,8 @@ rules:
     - always
   newline-per-chained-call: error
   no-await-in-loop: error
-  no-else-if: error
   no-console: error
+  no-else-if: error
   no-extra-semi: error
   no-negated-condition: error
   no-nested-ternary: error
