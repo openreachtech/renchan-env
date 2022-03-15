@@ -275,8 +275,8 @@ describe('Environment', () => {
 
   describe('#env to throw exception with unknown key', () => {
     const cases = [
-      ['UNKNOWN_KEY', 'not found [UNKNOWN_KEY]'],
-      ['NONE_KEY', 'not found [NONE_KEY]'],
+      ['UNKNOWN_KEY', 'environment variable is not defined [UNKNOWN_KEY]'],
+      ['NONE_KEY', 'environment variable is not defined [NONE_KEY]'],
     ]
 
     test.each(cases)('%s', (key, errorMessage) => {
