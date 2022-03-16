@@ -2,10 +2,15 @@
   "name": "@openreachtech/renchan-env",
   "version": "0.0.0",
   "description": "Env module - Renchan",
+  "files": [
+    "lib/",
+    "README.md",
+    "package.json"
+  ],
   "main": "index.js",
   "scripts": {
     "lint": "eslint . --rulesdir 'eslint/rules/'",
-    "test": "export NODE_ENV=development; jest --forceExit --detectOpenHandles"
+    "test": "export NODE_ENV=development; export APP_NAME='App Name Exported in Terminal'; jest --forceExit --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -25,8 +30,12 @@
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsdoc": "^38.0.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
     "jest": "^27.5.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0"
   }
 }
