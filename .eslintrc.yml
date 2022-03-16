@@ -40,7 +40,9 @@ rules:
       message: 'Object-Oriented Programming does not require `while` statement.'
   no-return-await: error
   no-unexpected-multiline: error
-  no-unneeded-ternary: error
+  no-unneeded-ternary:
+    - error
+    - defaultAssignment: false
   no-unreachable: error
   no-var: error
   operator-linebreak:
