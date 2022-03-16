@@ -64,8 +64,8 @@ rules:
         - throw
   semi-spacing:
     - error
-    - after: true
-      before: false
+    - before: false
+      after: true
   semi-style:
     - error
     - first
