@@ -6,6 +6,8 @@ extends:
   - standard
 parserOptions:
   ecmaVersion: 12
+plugins:
+  - jsdoc
 ignorePatterns:
   - trials
 rules:
@@ -13,6 +15,16 @@ rules:
   eol-last:
     - error
     - always
+  jsdoc/require-hyphen-before-param-description:
+    - error
+    - always
+  jsdoc/require-param: error
+  jsdoc/require-param-name: error
+  jsdoc/require-param-type: error
+  jsdoc/require-returns: error
+  jsdoc/require-returns-type: error
+  jsdoc/require-throws: error
+  jsdoc/require-yields: error
   multiline-ternary:
     - error
     - always
