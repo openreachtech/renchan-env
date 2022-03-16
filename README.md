@@ -37,7 +37,7 @@
 
       API_HOST: string,
       API_KEY: string,
-    }} */ (Environment.getEnv())
+    }} */ (Environment.createEnv())
     ```
 4. call env from application code.
 
