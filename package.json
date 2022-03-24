@@ -36,6 +36,7 @@
     "jest": "^27.5.1"
   },
   "dependencies": {
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "eslint-plugin-openreachtech": "0.0.0"
   }
 }
