@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "lint": "eslint . --rulesdir 'eslint/rules/'",
+    "lint": "eslint .",
     "test": "export NODE_ENV=development; export APP_NAME='App Name Exported in Terminal'; jest --forceExit --detectOpenHandles"
   },
   "repository": {
@@ -36,6 +36,7 @@
     "jest": "^27.5.1"
   },
   "dependencies": {
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "eslint-plugin-openreachtech": "0.0.0"
   }
 }

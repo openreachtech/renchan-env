@@ -8,6 +8,7 @@ parserOptions:
   ecmaVersion: 12
 plugins:
   - jsdoc
+  - openreachtech
 ignorePatterns:
   - trials
 rules:
@@ -31,7 +32,6 @@ rules:
   newline-per-chained-call: error
   no-await-in-loop: error
   no-console: error
-  no-else-if: error
   no-extra-semi: error
   no-negated-condition: error
   no-nested-ternary: error
@@ -57,6 +57,7 @@ rules:
     - defaultAssignment: false
   no-unreachable: error
   no-var: error
+  openreachtech/no-else-if: error
   operator-linebreak:
     - error
     - before
