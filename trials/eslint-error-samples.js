@@ -1,4 +1,13 @@
 'use strict'
+
+function noElseIf (p) {
+  if (p < 100) {
+    testMethod()
+  } else if (p > 3) {
+    statementError()
+  }
+}
+
 function testMethod() {
   return 999
 

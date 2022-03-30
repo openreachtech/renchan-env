@@ -4,6 +4,10 @@
 
 * This is `Environment` utility for all Renchan applications.
 
+## Release
+
+* 0.0.0 - 2022/03/16
+
 ## Usage
 
 1. Write about npm config in `.npmrc`
