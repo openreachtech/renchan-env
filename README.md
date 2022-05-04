@@ -6,6 +6,7 @@
 
 ## Release
 
+* 0.0.1 - 2022/05/05
 * 0.0.0 - 2022/03/16
 
 ## Usage
@@ -82,3 +83,7 @@
 
   console.log(env.UNKNOWN_KEY) // throws 'environment variable is not defined [UNKNOWN_KEY]'
   ```
+
+## Copyright
+
+© 2022 Open Reach Tech inc.
