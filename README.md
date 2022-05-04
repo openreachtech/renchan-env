@@ -82,3 +82,7 @@
 
   console.log(env.UNKNOWN_KEY) // throws 'environment variable is not defined [UNKNOWN_KEY]'
   ```
+
+## Copyright
+
+© 2022 Open Reach Tech inc.
