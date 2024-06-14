@@ -11,4 +11,5 @@ ehthumbs_vista.db
 .DS_Store
 
 #### environment to develop
-/.vscode
+.vscode/*
+!.vscode/cspell.json
