@@ -34,8 +34,8 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TO_REPO_OF_ORT_ESLINT_CONFIG }}
 
-      # - name: 🔍 ESLint
-      #   run: npm run lint
+      - name: 🔍 ESLint
+        run: npm run lint
 
       - name: 🧪 Jest
         run: npm test
