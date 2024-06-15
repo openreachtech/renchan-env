@@ -79,14 +79,33 @@ describe('DotenvLoader', () => {
 describe('DotenvLoader', () => {
   describe('#createDotenvOptions()', () => {
     describe('throw exception', () => {
-      const cases = [
-        null,
-        undefined,
-        '',
-      ]
+      /**
+       * @type {Array<{
+       *   args: {
+       *     nodeEnv: string,
+       *   },
+       * }>}
+       */
+      const cases = /** @type {*} */ ([
+        {
+          args: {
+            nodeEnv: null,
+          },
+        },
+        {
+          args: {
+            nodeEnv: undefined,
+          },
+        },
+        {
+          args: {
+            nodeEnv: '',
+          },
+        },
+      ])
 
-      test.each(cases)('%s', (nodeEnv) => {
-        const loader = new DotenvLoader(nodeEnv)
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+        const loader = new DotenvLoader(args.nodeEnv)
 
         expect(() => loader.createDotenvOptions())
           .toThrowError('no NODE_ENV')
@@ -95,15 +114,30 @@ describe('DotenvLoader', () => {
 
     describe('with NODE_ENV', () => {
       const cases = [
-        ['development', '/.env.development'],
-        ['staging', '/.env.staging'],
-        ['extra', '/.env.extra'],
+        {
+          args: {
+            nodeEnv: 'development',
+          },
+          expected: '/.env.development',
+        },
+        {
+          args: {
+            nodeEnv: 'staging',
+          },
+          expected: '/.env.staging',
+        },
+        {
+          args: {
+            nodeEnv: 'extra',
+          },
+          expected: '/.env.extra',
+        },
       ]
 
-      test.each(cases)('%s', (nodeEnv, fileName) => {
-        const loader = new DotenvLoader(nodeEnv)
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
+        const loader = new DotenvLoader(args.nodeEnv)
 
-        expect(loader.createDotenvOptions().path.endsWith(fileName)).toBeTruthy()
+        expect(loader.createDotenvOptions().path.endsWith(expected)).toBeTruthy()
       })
 
       test('NODE_ENV: production', () => {
