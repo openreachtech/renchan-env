@@ -4,6 +4,44 @@
 const DotenvLoader = require('../../../lib/DotenvLoader')
 
 describe('DotenvLoader', () => {
+  describe('constructor', () => {
+    describe('to keep property', () => {
+      describe('#nodeEnv', () => {
+        const cases = [
+          {
+            args: {
+              nodeEnv: 'production',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'development',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'staging',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'extra',
+            },
+          },
+        ]
+
+        test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+          const loader = new DotenvLoader(args)
+
+          expect(loader)
+            .toHaveProperty('nodeEnv', args.nodeEnv)
+        })
+      })
+    })
+  })
+})
+
+describe('DotenvLoader', () => {
   describe('#resolveDotenvPath()', () => {
     describe('throw exception', () => {
       /**
@@ -32,7 +70,7 @@ describe('DotenvLoader', () => {
       ])
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
-        const loader = new DotenvLoader(args.nodeEnv)
+        const loader = new DotenvLoader(args)
 
         expect(() => loader.resolveDotenvPath())
           .toThrowError('no NODE_ENV')
@@ -62,13 +100,15 @@ describe('DotenvLoader', () => {
       ]
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
-        const loader = new DotenvLoader(args.nodeEnv)
+        const loader = new DotenvLoader(args)
 
         expect(loader.resolveDotenvPath().endsWith(expected)).toBeTruthy()
       })
 
       test('NODE_ENV: production', () => {
-        const loader = new DotenvLoader('production')
+        const loader = new DotenvLoader({
+          nodeEnv: 'production',
+        })
 
         expect(loader.resolveDotenvPath()).toBeNull()
       })
@@ -105,7 +145,7 @@ describe('DotenvLoader', () => {
       ])
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
-        const loader = new DotenvLoader(args.nodeEnv)
+        const loader = new DotenvLoader(args)
 
         expect(() => loader.createDotenvOptions())
           .toThrowError('no NODE_ENV')
@@ -135,13 +175,15 @@ describe('DotenvLoader', () => {
       ]
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
-        const loader = new DotenvLoader(args.nodeEnv)
+        const loader = new DotenvLoader(args)
 
         expect(loader.createDotenvOptions().path.endsWith(expected)).toBeTruthy()
       })
 
       test('NODE_ENV: production', () => {
-        const loader = new DotenvLoader('production')
+        const loader = new DotenvLoader({
+          nodeEnv: 'production',
+        })
 
         expect(loader.createDotenvOptions()).toEqual({})
       })
@@ -163,7 +205,7 @@ describe('DotenvLoader', () => {
       ]
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
-        const loader = new DotenvLoader(args.nodeEnv)
+        const loader = new DotenvLoader(args)
 
         expect(() => loader.loadConfig())
           .toThrowError(expected)
@@ -211,7 +253,7 @@ describe('DotenvLoader', () => {
       ]
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
-        const loader = new DotenvLoader(args.nodeEnv)
+        const loader = new DotenvLoader(args)
 
         expect(loader.loadConfig())
           .toEqual(expected)
