@@ -40,7 +40,9 @@ describe('DotenvLoader', () => {
       })
     })
   })
+})
 
+describe('DotenvLoader', () => {
   describe('#createDotenvOptions()', () => {
     describe('throw exception', () => {
       const cases = [
@@ -77,6 +79,9 @@ describe('DotenvLoader', () => {
       })
     })
   })
+})
+
+describe('DotenvLoader', () => {
 
   describe('#loadConfig()', () => {
     describe('throw exception', () => {
@@ -140,6 +145,9 @@ describe('DotenvLoader', () => {
       })
     })
   })
+})
+
+describe('DotenvLoader', () => {
 
   describe('.load()', () => {
     describe('throw exception', () => {
