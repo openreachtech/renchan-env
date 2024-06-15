@@ -155,61 +155,66 @@ describe('DotenvLoader', () => {
     describe('throw exception', () => {
       const cases = [
         {
-          nodeEnv: 'notfound',
-          errorPattern: /^ENOENT: no such file or directory, open /
+          args: {
+            nodeEnv: 'notfound',
+          },
+          expected: /^ENOENT: no such file or directory, open /u,
         },
       ]
 
-      test.each(cases)('%s', ({
-        nodeEnv,
-        errorPattern,
-      }) => {
-        const loader = new DotenvLoader(nodeEnv)
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
+        const loader = new DotenvLoader(args.nodeEnv)
 
         expect(() => loader.loadConfig())
-          .toThrowError(errorPattern)
+          .toThrowError(expected)
       })
     })
 
     describe('with NODE_ENV', () => {
       const cases = [
         {
-          nodeEnv: 'production',
-          envBody: {
+          args: {
+            nodeEnv: 'production',
+          },
+          expected: {
             API_HOST: 'openreach.tech',
             API_KEY: 'uhyouhyo',
-          }
+          },
         },
         {
-          nodeEnv: 'development',
-          envBody: {
+          args: {
+            nodeEnv: 'development',
+          },
+          expected: {
             API_HOST: 'dev.openreach.tech',
             API_KEY: 'devdev',
-          }
+          },
         },
         {
-          nodeEnv: 'staging',
-          envBody: {
+          args: {
+            nodeEnv: 'staging',
+          },
+          expected: {
             API_HOST: 'staging.openreach.tech',
             API_KEY: 'staginguhyo',
-          }
+          },
         },
         {
-          nodeEnv: 'extra',
-          envBody: {
+          args: {
+            nodeEnv: 'extra',
+          },
+          expected: {
             API_HOST: 'extra.openreach.tech',
             API_KEY: 'extraextra',
-          }
+          },
         },
       ]
 
-      test.each(cases)('%s', ({
-        nodeEnv,
-        envBody
-      }) => {
-        const loader = new DotenvLoader(nodeEnv)
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
+        const loader = new DotenvLoader(args.nodeEnv)
 
-        expect(loader.loadConfig()).toEqual(envBody)
+        expect(loader.loadConfig())
+          .toEqual(expected)
       })
     })
   })
