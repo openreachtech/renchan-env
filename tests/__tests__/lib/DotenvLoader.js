@@ -4,6 +4,44 @@
 const DotenvLoader = require('../../../lib/DotenvLoader')
 
 describe('DotenvLoader', () => {
+  describe('constructor', () => {
+    describe('to keep property', () => {
+      describe('#nodeEnv', () => {
+        const cases = [
+          {
+            args: {
+              nodeEnv: 'production',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'development',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'staging',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'extra',
+            },
+          },
+        ]
+
+        test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+          const loader = new DotenvLoader(args)
+
+          expect(loader)
+            .toHaveProperty('nodeEnv', args.nodeEnv)
+        })
+      })
+    })
+  })
+})
+
+describe('DotenvLoader', () => {
   describe('#resolveDotenvPath()', () => {
     describe('throw exception', () => {
       /**
