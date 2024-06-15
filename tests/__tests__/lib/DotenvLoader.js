@@ -1,6 +1,7 @@
 // @ts-check
 'use strict'
 
+const ConstructorSpyGenerator = require('@openreachtech/renchan-test-tools/lib/spyTools/ConstructorSpyGenerator')
 const DotenvLoader = require('../../../lib/DotenvLoader')
 
 describe('DotenvLoader', () => {
@@ -36,6 +37,77 @@ describe('DotenvLoader', () => {
           expect(loader)
             .toHaveProperty('nodeEnv', args.nodeEnv)
         })
+      })
+    })
+  })
+})
+
+describe('DotenvLoader', () => {
+  describe('.create()', () => {
+    describe('to return instance of own class', () => {
+      const cases = [
+        {
+          args: {
+            nodeEnv: 'production',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'development',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'staging',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'extra',
+          },
+        },
+      ]
+
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+        const loader = DotenvLoader.create(args)
+
+        expect(loader)
+          .toBeInstanceOf(DotenvLoader)
+      })
+    })
+
+    describe('to call constructor', () => {
+      const cases = [
+        {
+          args: {
+            nodeEnv: 'production',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'development',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'staging',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'extra',
+          },
+        },
+      ]
+
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+        const DotenvLoaderSpy = ConstructorSpyGenerator.create({ jest })
+          .generateSpyKitClass(DotenvLoader)
+
+        DotenvLoaderSpy.create(args)
+
+        expect(DotenvLoaderSpy.__spy__)
+          .toHaveBeenCalledWith(args)
       })
     })
   })
