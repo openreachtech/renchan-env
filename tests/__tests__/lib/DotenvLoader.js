@@ -189,7 +189,7 @@ describe('DotenvLoader', () => {
 })
 
 describe('DotenvLoader', () => {
-  describe('#createDotenvOptions()', () => {
+  describe('#generateDotenvOptions()', () => {
     describe('throw exception', () => {
       /**
        * @type {Array<{
@@ -219,7 +219,7 @@ describe('DotenvLoader', () => {
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
         const loader = new DotenvLoader(args)
 
-        expect(() => loader.createDotenvOptions())
+        expect(() => loader.generateDotenvOptions())
           .toThrowError('no NODE_ENV')
       })
     })
@@ -249,7 +249,7 @@ describe('DotenvLoader', () => {
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
         const loader = new DotenvLoader(args)
 
-        expect(loader.createDotenvOptions().path.endsWith(expected)).toBeTruthy()
+        expect(loader.generateDotenvOptions().path.endsWith(expected)).toBeTruthy()
       })
 
       test('NODE_ENV: production', () => {
@@ -257,7 +257,7 @@ describe('DotenvLoader', () => {
           nodeEnv: 'production',
         })
 
-        expect(loader.createDotenvOptions()).toEqual({})
+        expect(loader.generateDotenvOptions()).toEqual({})
       })
     })
   })
