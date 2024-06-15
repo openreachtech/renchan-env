@@ -13,9 +13,9 @@ describe('DotenvLoader', () => {
       ]
 
       test.each(cases)('%s', (nodeEnv) => {
-        const env = new DotenvLoader(nodeEnv)
+        const loader = new DotenvLoader(nodeEnv)
 
-        expect(() => env.resolveDotenvPath())
+        expect(() => loader.resolveDotenvPath())
           .toThrowError('no NODE_ENV')
       })
     })
@@ -28,15 +28,15 @@ describe('DotenvLoader', () => {
       ]
 
       test.each(cases)('%s', (nodeEnv, fileName) => {
-        const env = new DotenvLoader(nodeEnv)
+        const loader = new DotenvLoader(nodeEnv)
 
-        expect(env.resolveDotenvPath().endsWith(fileName)).toBeTruthy()
+        expect(loader.resolveDotenvPath().endsWith(fileName)).toBeTruthy()
       })
 
       test('NODE_ENV: production', () => {
-        const env = new DotenvLoader('production')
+        const loader = new DotenvLoader('production')
 
-        expect(env.resolveDotenvPath()).toBeNull()
+        expect(loader.resolveDotenvPath()).toBeNull()
       })
     })
   })
@@ -50,9 +50,9 @@ describe('DotenvLoader', () => {
       ]
 
       test.each(cases)('%s', (nodeEnv) => {
-        const env = new DotenvLoader(nodeEnv)
+        const loader = new DotenvLoader(nodeEnv)
 
-        expect(() => env.createDotenvOptions())
+        expect(() => loader.createDotenvOptions())
           .toThrowError('no NODE_ENV')
       })
     })
@@ -65,15 +65,15 @@ describe('DotenvLoader', () => {
       ]
 
       test.each(cases)('%s', (nodeEnv, fileName) => {
-        const env = new DotenvLoader(nodeEnv)
+        const loader = new DotenvLoader(nodeEnv)
 
-        expect(env.createDotenvOptions().path.endsWith(fileName)).toBeTruthy()
+        expect(loader.createDotenvOptions().path.endsWith(fileName)).toBeTruthy()
       })
 
       test('NODE_ENV: production', () => {
-        const env = new DotenvLoader('production')
+        const loader = new DotenvLoader('production')
 
-        expect(env.createDotenvOptions()).toEqual({})
+        expect(loader.createDotenvOptions()).toEqual({})
       })
     })
   })
@@ -91,9 +91,9 @@ describe('DotenvLoader', () => {
         nodeEnv,
         errorPattern,
       }) => {
-        const env = new DotenvLoader(nodeEnv)
+        const loader = new DotenvLoader(nodeEnv)
 
-        expect(() => env.loadConfig())
+        expect(() => loader.loadConfig())
           .toThrowError(errorPattern)
       })
     })
@@ -134,9 +134,9 @@ describe('DotenvLoader', () => {
         nodeEnv,
         envBody
       }) => {
-        const env = new DotenvLoader(nodeEnv)
+        const loader = new DotenvLoader(nodeEnv)
 
-        expect(env.loadConfig()).toEqual(envBody)
+        expect(loader.loadConfig()).toEqual(envBody)
       })
     })
   })
