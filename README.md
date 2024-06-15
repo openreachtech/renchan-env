@@ -46,7 +46,7 @@
     ```
 4. call env from application code.
 
-  * Sapmle code.
+  * Sample code.
 
     ```sample.js
     const ApiClient = require('api/ApiClient')
