@@ -30,7 +30,7 @@
   - [ ] `[project root]/.env.development` (for `npm test` and `npm run dev`)
     ```
     API_HOST = openreach.tech
-    API_KEY = uhyouhyo
+    API_KEY = hash-of-api-key
     ```
   - [ ] `[project root]/as/you/like/appEnv.js`
 
