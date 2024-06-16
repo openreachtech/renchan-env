@@ -68,7 +68,12 @@ describe('DotenvLoader', () => {
         ]
 
         test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
-          const loader = new DotenvLoader(args)
+          const targetArgs = {
+            dotenvHandler: dotenv,
+            nodeEnv: args.nodeEnv,
+          }
+
+          const loader = new DotenvLoader(targetArgs)
 
           expect(loader)
             .toHaveProperty('nodeEnv', args.nodeEnv)
