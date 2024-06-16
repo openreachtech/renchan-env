@@ -329,7 +329,10 @@ describe('DotenvLoader', () => {
           nodeEnv: 'production',
         })
 
-        expect(loader.resolveDotenvPath()).toBeNull()
+        const actual = loader.resolveDotenvPath()
+
+        expect(actual)
+          .toBeNull()
       })
     })
   })
@@ -411,7 +414,10 @@ describe('DotenvLoader', () => {
           nodeEnv: 'production',
         })
 
-        expect(loader.generateDotenvOptions()).toEqual({})
+        const actual = loader.generateDotenvOptions()
+
+        expect(actual)
+          .toEqual({})
       })
     })
   })
@@ -481,7 +487,9 @@ describe('DotenvLoader', () => {
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
         const loader = DotenvLoader.create(args)
 
-        expect(loader.loadConfig())
+        const actual = loader.loadConfig()
+
+        expect(actual)
           .toEqual(expected)
       })
     })
