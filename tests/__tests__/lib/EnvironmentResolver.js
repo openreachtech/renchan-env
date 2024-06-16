@@ -315,3 +315,106 @@ describe('EnvironmentResolver', () => {
     })
   })
 })
+
+describe('EnvironmentResolver', () => {
+  describe('#createProxyEnv()', () => {
+    describe('with NODE_ENV', () => {
+      /**
+       * @type {Array<{
+       *   args: EnvironmentResolver.EnvironmentResolverFactoryParams,
+       *   expected: Object.<string, string>,
+       * }>}
+       */
+      const cases = [
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'development',
+              APP_NAME: 'App Name Exported in Terminal',
+            },
+          },
+          expected: {
+            API_HOST: 'dev.openreach.tech',
+            API_KEY: 'development-api-key',
+
+            NODE_ENV: 'development',
+            APP_NAME: 'App Name Exported in Terminal',
+          },
+        },
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'extra',
+              APP_NAME: 'App Name as Extra in test',
+            },
+          },
+          expected: {
+            API_HOST: 'extra.openreach.tech',
+            API_KEY: 'extra-api-key',
+
+            NODE_ENV: 'extra',
+            APP_NAME: 'App Name as Extra in test',
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args, expected }) => {
+        const resolver = EnvironmentResolver.create(args)
+
+        const actual = resolver.createProxyEnv()
+
+        // NOTE: Can not use toMatchObject() here, because actual is a Proxy object.
+        expect(actual.NODE_ENV)
+          .toEqual(expected.NODE_ENV)
+        expect(actual.APP_NAME)
+          .toEqual(expected.APP_NAME)
+        expect(actual.API_HOST)
+          .toEqual(expected.API_HOST)
+        expect(actual.API_KEY)
+          .toEqual(expected.API_KEY)
+      })
+    })
+
+    describe('without NODE_ENV', () => {
+      const expected = {
+        API_HOST: 'dev.openreach.tech',
+        API_KEY: 'development-api-key',
+
+        NODE_ENV: 'development',
+        APP_NAME: 'App Name Exported in Terminal',
+      }
+
+      test('args: {}', () => {
+        const resolver = EnvironmentResolver.create({})
+
+        const actual = resolver.createProxyEnv()
+
+        // NOTE: Can not use toMatchObject() here, because actual is a Proxy object.
+        expect(actual.NODE_ENV)
+          .toEqual(expected.NODE_ENV)
+        expect(actual.APP_NAME)
+          .toEqual(expected.APP_NAME)
+        expect(actual.API_HOST)
+          .toEqual(expected.API_HOST)
+        expect(actual.API_KEY)
+          .toEqual(expected.API_KEY)
+      })
+
+      test('no args', () => {
+        const resolver = EnvironmentResolver.create()
+
+        const actual = resolver.createProxyEnv()
+
+        // NOTE: Can not use toMatchObject() here, because actual is a Proxy object.
+        expect(actual.NODE_ENV)
+          .toEqual(expected.NODE_ENV)
+        expect(actual.APP_NAME)
+          .toEqual(expected.APP_NAME)
+        expect(actual.API_HOST)
+          .toEqual(expected.API_HOST)
+        expect(actual.API_KEY)
+          .toEqual(expected.API_KEY)
+      })
+    })
+  })
+})
