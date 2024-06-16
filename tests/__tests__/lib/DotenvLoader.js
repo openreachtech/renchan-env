@@ -295,26 +295,29 @@ describe('DotenvLoader', () => {
           args: {
             nodeEnv: 'development',
           },
-          expected: '/.env.development',
+          expected: /.env.development$/u,
         },
         {
           args: {
             nodeEnv: 'staging',
           },
-          expected: '/.env.staging',
+          expected: /.env.staging$/u,
         },
         {
           args: {
             nodeEnv: 'extra',
           },
-          expected: '/.env.extra',
+          expected: /.env.extra$/u,
         },
       ]
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
         const loader = DotenvLoader.create(args)
 
-        expect(loader.resolveDotenvPath().endsWith(expected)).toBeTruthy()
+        const actual = loader.resolveDotenvPath()
+
+        expect(actual)
+          .toMatch(expected)
       })
 
       test('NODE_ENV: production', () => {
