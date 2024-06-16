@@ -121,21 +121,25 @@ describe('DotenvLoader', () => {
       const cases = [
         {
           args: {
+            dotenvHandler: dotenv,
             nodeEnv: 'production',
           },
         },
         {
           args: {
+            dotenvHandler: dotenv,
             nodeEnv: 'development',
           },
         },
         {
           args: {
+            dotenvHandler: dotenv,
             nodeEnv: 'staging',
           },
         },
         {
           args: {
+            dotenvHandler: dotenv,
             nodeEnv: 'extra',
           },
         },
