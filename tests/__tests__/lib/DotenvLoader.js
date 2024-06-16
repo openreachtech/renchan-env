@@ -258,12 +258,10 @@ describe('DotenvLoader', () => {
     describe('throw exception', () => {
       /**
        * @type {Array<{
-       *   args: {
-       *     nodeEnv: string,
-       *   },
+       *   args: DotenvLoader.DotenvLoaderFactoryParams
        * }>}
        */
-      const cases = /** @type {*} */ ([
+      const cases = /** @type {Array<*>} */ ([
         {
           args: {
             nodeEnv: null,
@@ -290,7 +288,13 @@ describe('DotenvLoader', () => {
     })
 
     describe('with NODE_ENV', () => {
-      const cases = [
+      /**
+       * @type {Array<{
+       *   args: DotenvLoader.DotenvLoaderFactoryParams
+       *   expected: RegExp
+       * }>}
+       */
+      const cases = /** @type {Array<*>} */ ([
         {
           args: {
             nodeEnv: 'development',
@@ -309,7 +313,7 @@ describe('DotenvLoader', () => {
           },
           expected: /\.env\.extra$/u,
         },
-      ]
+      ])
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
         const loader = DotenvLoader.create(args)
@@ -336,12 +340,10 @@ describe('DotenvLoader', () => {
     describe('throw exception', () => {
       /**
        * @type {Array<{
-       *   args: {
-       *     nodeEnv: string,
-       *   },
+       *   args: DotenvLoader.DotenvLoaderFactoryParams
        * }>}
        */
-      const cases = /** @type {*} */ ([
+      const cases = /** @type {Array<object>} */ ([
         {
           args: {
             nodeEnv: null,
@@ -363,12 +365,18 @@ describe('DotenvLoader', () => {
         const loader = DotenvLoader.create(args)
 
         expect(() => loader.generateDotenvOptions())
-          .toThrowError('no NODE_ENV')
+          .toThrow('no NODE_ENV')
       })
     })
 
     describe('with NODE_ENV', () => {
-      const cases = [
+      /**
+       * @type {Array<{
+       *   args: DotenvLoader.DotenvLoaderFactoryParams
+       *   expected: RegExp
+       * }>}
+       */
+      const cases = /** @type {Array<object>} */ ([
         {
           args: {
             nodeEnv: 'development',
@@ -387,7 +395,7 @@ describe('DotenvLoader', () => {
           },
           expected: /\.env\.extra$/u,
         },
-      ]
+      ])
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
         const loader = DotenvLoader.create(args)
