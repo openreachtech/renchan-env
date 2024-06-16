@@ -21,13 +21,13 @@ describe('EnvironmentResolver', () => {
       API_KEY: 'extra-api-key',
     }
 
-    /** @type {typeof globalThis.process.env} */
+    /** @type {globalThis.NodeJS.ProcessEnv} */
     const developmentProcessEnv = {
       NODE_ENV: 'development',
       APP_NAME: 'App Name Exported in Terminal',
     }
 
-    /** @type {typeof globalThis.process.env} */
+    /** @type {globalThis.NodeJS.ProcessEnv} */
     const extraProcessEnv = {
       NODE_ENV: 'extra',
       APP_NAME: 'App Name as Extra in test',
@@ -109,13 +109,13 @@ describe('EnvironmentResolver', () => {
       API_KEY: 'extra-api-key',
     }
 
-    /** @type {typeof globalThis.process.env} */
+    /** @type {globalThis.NodeJS.ProcessEnv} */
     const developmentProcessEnv = {
       NODE_ENV: 'development',
       APP_NAME: 'App Name Exported in Terminal',
     }
 
-    /** @type {typeof globalThis.process.env} */
+    /** @type {globalThis.NodeJS.ProcessEnv} */
     const extraProcessEnv = {
       NODE_ENV: 'extra',
       APP_NAME: 'App Name as Extra in test',
