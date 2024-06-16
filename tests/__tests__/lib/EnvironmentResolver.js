@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 const ConstructorSpyGenerator = require('@openreachtech/renchan-test-tools/lib/spyTools/ConstructorSpyGenerator')
 
 const EnvironmentResolver = require('../../../lib/EnvironmentResolver')
+const DotenvLoader = require('../../../lib/DotenvLoader')
 
 describe('EnvironmentResolver', () => {
   describe('constructor', () => {
@@ -217,6 +218,102 @@ describe('EnvironmentResolver', () => {
           expect(EnvironmentResolverSpy.__spy__)
             .toHaveBeenCalledWith(expected)
         })
+      })
+    })
+  })
+})
+
+describe('EnvironmentResolver', () => {
+  describe('.loadDotenv()', () => {
+    describe('to call member of DotenvLoader', () => {
+      const cases = [
+        {
+          args: {
+            nodeEnv: 'development',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'staging',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'extra',
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.nodeEnv', ({ args }) => {
+        const loadedDotenvTally = {
+          NODE_ENV: args.nodeEnv,
+        }
+
+        /** @type {DotenvLoader} */
+        const mockLoader = /** @type {*} */ ({
+          loadConfig: () => loadedDotenvTally,
+        })
+
+        const createSpy = jest.spyOn(DotenvLoader, 'create')
+          .mockReturnValue(mockLoader)
+
+        const actual = EnvironmentResolver.loadDotenv(args)
+
+        expect(actual)
+          .toBe(loadedDotenvTally) // same reference
+
+        expect(createSpy)
+          .toHaveBeenCalledWith(args)
+
+        createSpy.mockRestore()
+      })
+    })
+
+    describe('to return actual loaded dotenv', () => {
+      const cases = [
+        {
+          args: {
+            nodeEnv: 'development',
+          },
+          expected: {
+            API_HOST: 'dev.openreach.tech',
+            API_KEY: 'development-api-key',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'staging',
+          },
+          expected: {
+            API_HOST: 'staging.openreach.tech',
+            API_KEY: 'staging-api-key',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'production',
+          },
+          expected: {
+            API_HOST: 'openreach.tech',
+            API_KEY: 'production-api-key',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'extra',
+          },
+          expected: {
+            API_HOST: 'extra.openreach.tech',
+            API_KEY: 'extra-api-key',
+          },
+        },
+      ]
+
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
+        const actual = EnvironmentResolver.loadDotenv(args)
+
+        expect(actual)
+          .toEqual(expected)
       })
     })
   })
