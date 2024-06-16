@@ -295,19 +295,19 @@ describe('DotenvLoader', () => {
           args: {
             nodeEnv: 'development',
           },
-          expected: /.env.development$/u,
+          expected: /\.env\.development$/u,
         },
         {
           args: {
             nodeEnv: 'staging',
           },
-          expected: /.env.staging$/u,
+          expected: /\.env\.staging$/u,
         },
         {
           args: {
             nodeEnv: 'extra',
           },
-          expected: /.env.extra$/u,
+          expected: /\.env\.extra$/u,
         },
       ]
 
@@ -373,19 +373,19 @@ describe('DotenvLoader', () => {
           args: {
             nodeEnv: 'development',
           },
-          expected: /.env.development$/u,
+          expected: /\.env\.development$/u,
         },
         {
           args: {
             nodeEnv: 'staging',
           },
-          expected: /.env.staging$/u,
+          expected: /\.env\.staging$/u,
         },
         {
           args: {
             nodeEnv: 'extra',
           },
-          expected: /.env.extra$/u,
+          expected: /\.env\.extra$/u,
         },
       ]
 
