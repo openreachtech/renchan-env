@@ -438,7 +438,7 @@ describe('DotenvLoader', () => {
           },
           expected: {
             API_HOST: 'openreach.tech',
-            API_KEY: 'uhyouhyo',
+            API_KEY: 'production-api-key',
           },
         },
         {
