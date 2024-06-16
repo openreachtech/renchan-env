@@ -24,7 +24,7 @@ describe('typedEnv', () => {
     const expectedEnv = {
       NODE_ENV: 'development',
       API_HOST: 'dev.openreach.tech',
-      API_KEY: 'devdev',
+      API_KEY: 'development-api-key',
     }
 
     expect(typedEnv.NODE_ENV).toEqual(expectedEnv.NODE_ENV)
