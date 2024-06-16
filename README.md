@@ -30,7 +30,7 @@
   - [ ] `[project root]/.env.development` (for `npm test` and `npm run dev`)
     ```
     API_HOST = openreach.tech
-    API_KEY = uhyouhyo
+    API_KEY = hash-of-api-key
     ```
   - [ ] `[project root]/as/you/like/appEnv.js`
 
@@ -46,7 +46,7 @@
     ```
 4. call env from application code.
 
-  * Sapmle code.
+  * Sample code.
 
     ```sample.js
     const ApiClient = require('api/ApiClient')
