@@ -22,12 +22,12 @@ describe('AppEnv', () => {
       ['development', {
         NODE_ENV: 'development',
         API_HOST: 'dev.openreach.tech',
-        API_KEY: 'devdev',
+        API_KEY: 'development-api-key',
       }],
       ['staging', {
         NODE_ENV: 'staging',
         API_HOST: 'staging.openreach.tech',
-        API_KEY: 'staginguhyo',
+        API_KEY: 'staging-api-key',
       }],
     ]
 

@@ -5,15 +5,15 @@ const Environment = require('../../../lib/Environment')
 
 const developmentDotenv = {
   API_HOST: 'dev.openreach.tech',
-  API_KEY: 'devdev',
+  API_KEY: 'development-api-key',
 }
 const extraDotenv = {
   API_HOST: 'extra.openreach.tech',
-  API_KEY: 'extraextra',
+  API_KEY: 'extra-api-key',
 }
 const stagingDotenv = {
   API_HOST: 'staging.openreach.tech',
-  API_KEY: 'staginguhyo',
+  API_KEY: 'staging-api-key',
 }
 
 const developmentProcessEnv = {

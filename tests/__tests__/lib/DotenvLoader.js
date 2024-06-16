@@ -438,7 +438,7 @@ describe('DotenvLoader', () => {
           },
           expected: {
             API_HOST: 'openreach.tech',
-            API_KEY: 'uhyouhyo',
+            API_KEY: 'production-api-key',
           },
         },
         {
@@ -447,7 +447,7 @@ describe('DotenvLoader', () => {
           },
           expected: {
             API_HOST: 'dev.openreach.tech',
-            API_KEY: 'devdev',
+            API_KEY: 'development-api-key',
           },
         },
         {
@@ -456,7 +456,7 @@ describe('DotenvLoader', () => {
           },
           expected: {
             API_HOST: 'staging.openreach.tech',
-            API_KEY: 'staginguhyo',
+            API_KEY: 'staging-api-key',
           },
         },
         {
@@ -465,7 +465,7 @@ describe('DotenvLoader', () => {
           },
           expected: {
             API_HOST: 'extra.openreach.tech',
-            API_KEY: 'extraextra',
+            API_KEY: 'extra-api-key',
           },
         },
       ]
