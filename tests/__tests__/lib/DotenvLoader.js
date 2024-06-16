@@ -1,12 +1,48 @@
 // @ts-check
 'use strict'
 
+const dotenv = require('dotenv')
+
 const ConstructorSpyGenerator = require('@openreachtech/renchan-test-tools/lib/spyTools/ConstructorSpyGenerator')
 const DotenvLoader = require('../../../lib/DotenvLoader')
 
 describe('DotenvLoader', () => {
   describe('constructor', () => {
     describe('to keep property', () => {
+      describe('#dotenvHandler', () => {
+        /**
+         * @type {Array<{
+         *   args: {
+         *     dotenvHandler: dotenv
+         *   }
+         * }>}
+         */
+        const cases = /** @type {Array<object>} */ ([
+          {
+            args: {
+              dotenvHandler: dotenv,
+            },
+          },
+          {
+            args: {
+              dotenvHandler: {},
+            },
+          },
+        ])
+
+        test.each(cases)('dotenvHandler: $args.dotenvHandler', ({ args }) => {
+          const targetArgs = {
+            dotenvHandler: args.dotenvHandler,
+            nodeEnv: 'extra',
+          }
+
+          const loader = new DotenvLoader(targetArgs)
+
+          expect(loader)
+            .toHaveProperty('dotenvHandler', args.dotenvHandler)
+        })
+      })
+
       describe('#nodeEnv', () => {
         const cases = [
           {
@@ -32,7 +68,12 @@ describe('DotenvLoader', () => {
         ]
 
         test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
-          const loader = new DotenvLoader(args)
+          const targetArgs = {
+            dotenvHandler: dotenv,
+            nodeEnv: args.nodeEnv,
+          }
+
+          const loader = new DotenvLoader(targetArgs)
 
           expect(loader)
             .toHaveProperty('nodeEnv', args.nodeEnv)
@@ -80,21 +121,25 @@ describe('DotenvLoader', () => {
       const cases = [
         {
           args: {
+            dotenvHandler: dotenv,
             nodeEnv: 'production',
           },
         },
         {
           args: {
+            dotenvHandler: dotenv,
             nodeEnv: 'development',
           },
         },
         {
           args: {
+            dotenvHandler: dotenv,
             nodeEnv: 'staging',
           },
         },
         {
           args: {
+            dotenvHandler: dotenv,
             nodeEnv: 'extra',
           },
         },
