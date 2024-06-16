@@ -4,7 +4,10 @@
     "linebreak",
     "plusplus",
 
+    "enoent",
+
     "openreach",
-    "openreachtech"
+    "openreachtech",
+    "renchan"
   ]
 }
