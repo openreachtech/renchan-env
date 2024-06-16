@@ -447,7 +447,7 @@ describe('DotenvLoader', () => {
           },
           expected: {
             API_HOST: 'dev.openreach.tech',
-            API_KEY: 'devdev',
+            API_KEY: 'development-api-key',
           },
         },
         {
