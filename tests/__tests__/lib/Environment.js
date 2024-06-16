@@ -9,7 +9,7 @@ const developmentDotenv = {
 }
 const extraDotenv = {
   API_HOST: 'extra.openreach.tech',
-  API_KEY: 'extraextra',
+  API_KEY: 'extra-api-key',
 }
 const stagingDotenv = {
   API_HOST: 'staging.openreach.tech',
