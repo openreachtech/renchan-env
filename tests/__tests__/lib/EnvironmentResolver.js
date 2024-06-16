@@ -125,26 +125,12 @@ describe('EnvironmentResolver', () => {
       const cases = [
         {
           args: {
-            loadedDotenv: developmentDotenv,
             processEnv: developmentProcessEnv,
           },
         },
         {
           args: {
-            loadedDotenv: extraDotenv,
             processEnv: extraProcessEnv,
-          },
-        },
-        {
-          args: {
-            loadedDotenv: developmentDotenv,
-            // processEnv: developmentProcessEnv,
-          },
-        },
-        {
-          args: {
-            loadedDotenv: extraDotenv,
-            // processEnv: extraProcessEnv,
           },
         },
       ]
@@ -158,62 +144,73 @@ describe('EnvironmentResolver', () => {
     })
 
     describe('to call constructor', () => {
-      describe('with process.env', () => {
+      describe('with processEnv', () => {
         const cases = [
           {
             args: {
-              loadedDotenv: developmentDotenv,
               processEnv: developmentProcessEnv,
+            },
+            tally: {
+              loadedDotenv: developmentDotenv,
             },
           },
           {
             args: {
-              loadedDotenv: extraDotenv,
               processEnv: extraProcessEnv,
+            },
+            tally: {
+              loadedDotenv: extraDotenv,
             },
           },
         ]
 
-        test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args }) => {
+        test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args, tally }) => {
+          const loadDotenvSpy = jest.spyOn(EnvironmentResolver, 'loadDotenv')
+            .mockReturnValue(tally.loadedDotenv)
+          const expected = {
+            loadedDotenv: tally.loadedDotenv,
+            processEnv: args.processEnv,
+          }
+
           const EnvironmentResolverSpy = ConstructorSpyGenerator.create({ jest })
             .generateSpyKitClass(EnvironmentResolver)
 
-            EnvironmentResolverSpy.create(args)
+          EnvironmentResolverSpy.create(args)
 
           expect(EnvironmentResolverSpy.__spy__)
-            .toHaveBeenCalledWith(args)
+            .toHaveBeenCalledWith(expected)
+
+          loadDotenvSpy.mockRestore()
         })
       })
 
-      describe('without process.env', () => {
-        const cases = [
-          {
-            args: {
-              loadedDotenv: developmentDotenv,
-              // processEnv: developmentProcessEnv,
-            },
-            expected: {
-              loadedDotenv: developmentDotenv,
-              processEnv: process.env,
-            },
-          },
-          {
-            args: {
-              loadedDotenv: extraDotenv,
-              // processEnv: extraProcessEnv,
-            },
-            expected: {
-              loadedDotenv: extraDotenv,
-              processEnv: process.env,
-            },
-          },
-        ]
+      describe('without processEnv', () => {
+        test('args: {}', () => {
+          const args = {}
+          const expected = {
+            loadedDotenv: developmentDotenv,
+            processEnv: process.env,
+          }
 
-        test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args, expected }) => {
           const EnvironmentResolverSpy = ConstructorSpyGenerator.create({ jest })
             .generateSpyKitClass(EnvironmentResolver)
 
-            EnvironmentResolverSpy.create(args)
+          EnvironmentResolverSpy.create(args)
+
+          expect(EnvironmentResolverSpy.__spy__)
+            .toHaveBeenCalledWith(expected)
+        })
+
+        test('args: undefined', () => {
+          const expected = {
+            loadedDotenv: developmentDotenv,
+            processEnv: process.env,
+          }
+
+          const EnvironmentResolverSpy = ConstructorSpyGenerator.create({ jest })
+            .generateSpyKitClass(EnvironmentResolver)
+
+          EnvironmentResolverSpy.create()
 
           expect(EnvironmentResolverSpy.__spy__)
             .toHaveBeenCalledWith(expected)
