@@ -471,5 +471,55 @@ describe('DotenvLoader', () => {
           .toEqual(expected)
       })
     })
+
+    describe('to call #dotenvHandler', () => {
+      const cases = [
+        {
+          args: {
+            nodeEnv: 'production',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'development',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'staging',
+          },
+        },
+        {
+          args: {
+            nodeEnv: 'extra',
+          },
+        },
+      ]
+
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+        const loader = DotenvLoader.create(args)
+
+        const tallyParsed = /** @type {*} */ ({})
+        const tallyOptions = /** @type {*} */ ({})
+        const tallyDotenv = /** @type {*} */ ({
+          parsed: tallyParsed,
+        })
+
+        const configSpy = jest.spyOn(loader.dotenvHandler, 'config')
+          .mockReturnValue(tallyDotenv)
+        const generateDotenvOptionsSpy = jest.spyOn(loader, 'generateDotenvOptions')
+          .mockReturnValue(tallyOptions)
+
+        const actual = loader.loadConfig()
+
+        expect(actual)
+          .toBe(tallyParsed) // same reference
+        expect(configSpy)
+          .toHaveBeenCalledWith(tallyOptions)
+
+        configSpy.mockRestore()
+        generateDotenvOptionsSpy.mockRestore()
+      })
+    })
   })
 })
