@@ -1,4 +1,3 @@
-// @ts-check
 'use strict'
 
 const typedEnv = require('../../app/typedEnv')
