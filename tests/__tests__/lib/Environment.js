@@ -13,7 +13,7 @@ const extraDotenv = {
 }
 const stagingDotenv = {
   API_HOST: 'staging.openreach.tech',
-  API_KEY: 'staginguhyo',
+  API_KEY: 'staging-api-key',
 }
 
 const developmentProcessEnv = {

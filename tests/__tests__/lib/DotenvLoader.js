@@ -456,7 +456,7 @@ describe('DotenvLoader', () => {
           },
           expected: {
             API_HOST: 'staging.openreach.tech',
-            API_KEY: 'staginguhyo',
+            API_KEY: 'staging-api-key',
           },
         },
         {
