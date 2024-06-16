@@ -86,73 +86,168 @@ describe('DotenvLoader', () => {
 describe('DotenvLoader', () => {
   describe('.create()', () => {
     describe('to return instance of own class', () => {
-      const cases = [
-        {
-          args: {
-            nodeEnv: 'production',
+      describe('with dotenvHandler', () => {
+        const cases = [
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'production',
+            },
           },
-        },
-        {
-          args: {
-            nodeEnv: 'development',
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'development',
+            },
           },
-        },
-        {
-          args: {
-            nodeEnv: 'staging',
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'staging',
+            },
           },
-        },
-        {
-          args: {
-            nodeEnv: 'extra',
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'extra',
+            },
           },
-        },
-      ]
+        ]
 
-      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
-        const loader = DotenvLoader.create(args)
+        test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+          const loader = DotenvLoader.create(args)
 
-        expect(loader)
-          .toBeInstanceOf(DotenvLoader)
+          expect(loader)
+            .toBeInstanceOf(DotenvLoader)
+        })
+      })
+
+      describe('without dotenvHandler', () => {
+        const cases = [
+          {
+            args: {
+              // dotenvHandler: dotenv,
+              nodeEnv: 'production',
+            },
+          },
+          {
+            args: {
+              // dotenvHandler: dotenv,
+              nodeEnv: 'development',
+            },
+          },
+          {
+            args: {
+              // dotenvHandler: dotenv,
+              nodeEnv: 'staging',
+            },
+          },
+          {
+            args: {
+              // dotenvHandler: dotenv,
+              nodeEnv: 'extra',
+            },
+          },
+        ]
+
+        test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+          const loader = DotenvLoader.create(args)
+
+          expect(loader)
+            .toBeInstanceOf(DotenvLoader)
+        })
       })
     })
 
     describe('to call constructor', () => {
-      const cases = [
-        {
-          args: {
-            dotenvHandler: dotenv,
-            nodeEnv: 'production',
+      describe('with dotenvHandler', () => {
+        const cases = [
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'production',
+            },
           },
-        },
-        {
-          args: {
-            dotenvHandler: dotenv,
-            nodeEnv: 'development',
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'development',
+            },
           },
-        },
-        {
-          args: {
-            dotenvHandler: dotenv,
-            nodeEnv: 'staging',
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'staging',
+            },
           },
-        },
-        {
-          args: {
-            dotenvHandler: dotenv,
-            nodeEnv: 'extra',
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'extra',
+            },
           },
-        },
-      ]
+        ]
 
-      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
-        const DotenvLoaderSpy = ConstructorSpyGenerator.create({ jest })
-          .generateSpyKitClass(DotenvLoader)
+        test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+          const DotenvLoaderSpy = ConstructorSpyGenerator.create({ jest })
+            .generateSpyKitClass(DotenvLoader)
 
-        DotenvLoaderSpy.create(args)
+          DotenvLoaderSpy.create(args)
 
-        expect(DotenvLoaderSpy.__spy__)
-          .toHaveBeenCalledWith(args)
+          expect(DotenvLoaderSpy.__spy__)
+            .toHaveBeenCalledWith(args)
+        })
+      })
+
+      describe('without dotenvHandler', () => {
+        const cases = [
+          {
+            args: {
+              nodeEnv: 'production',
+            },
+            expected: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'production',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'development',
+            },
+            expected: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'development',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'staging',
+            },
+            expected: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'staging',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'extra',
+            },
+            expected: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'extra',
+            },
+          },
+        ]
+
+        test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
+          const DotenvLoaderSpy = ConstructorSpyGenerator.create({ jest })
+            .generateSpyKitClass(DotenvLoader)
+
+          DotenvLoaderSpy.create(args)
+
+          expect(DotenvLoaderSpy.__spy__)
+            .toHaveBeenCalledWith(expected)
+        })
       })
     })
   })
@@ -187,7 +282,7 @@ describe('DotenvLoader', () => {
       ])
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
-        const loader = new DotenvLoader(args)
+        const loader = DotenvLoader.create(args)
 
         expect(() => loader.resolveDotenvPath())
           .toThrowError('no NODE_ENV')
@@ -217,13 +312,13 @@ describe('DotenvLoader', () => {
       ]
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
-        const loader = new DotenvLoader(args)
+        const loader = DotenvLoader.create(args)
 
         expect(loader.resolveDotenvPath().endsWith(expected)).toBeTruthy()
       })
 
       test('NODE_ENV: production', () => {
-        const loader = new DotenvLoader({
+        const loader = DotenvLoader.create({
           nodeEnv: 'production',
         })
 
@@ -262,7 +357,7 @@ describe('DotenvLoader', () => {
       ])
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
-        const loader = new DotenvLoader(args)
+        const loader = DotenvLoader.create(args)
 
         expect(() => loader.generateDotenvOptions())
           .toThrowError('no NODE_ENV')
@@ -292,13 +387,13 @@ describe('DotenvLoader', () => {
       ]
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
-        const loader = new DotenvLoader(args)
+        const loader = DotenvLoader.create(args)
 
         expect(loader.generateDotenvOptions().path.endsWith(expected)).toBeTruthy()
       })
 
       test('NODE_ENV: production', () => {
-        const loader = new DotenvLoader({
+        const loader = DotenvLoader.create({
           nodeEnv: 'production',
         })
 
@@ -322,7 +417,7 @@ describe('DotenvLoader', () => {
       ]
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
-        const loader = new DotenvLoader(args)
+        const loader = DotenvLoader.create(args)
 
         expect(() => loader.loadConfig())
           .toThrowError(expected)
@@ -370,7 +465,7 @@ describe('DotenvLoader', () => {
       ]
 
       test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
-        const loader = new DotenvLoader(args)
+        const loader = DotenvLoader.create(args)
 
         expect(loader.loadConfig())
           .toEqual(expected)
