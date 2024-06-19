@@ -172,8 +172,7 @@ describe('EnvironmentResolver', () => {
             processEnv: args.processEnv,
           }
 
-          const EnvironmentResolverSpy = ConstructorSpyGenerator.create({ jest })
-            .generateSpyKitClass(EnvironmentResolver)
+          const EnvironmentResolverSpy = constructorSpy.spyOn(EnvironmentResolver)
 
           EnvironmentResolverSpy.create(args)
 
