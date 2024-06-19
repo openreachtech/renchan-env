@@ -188,8 +188,7 @@ describe('DotenvLoader', () => {
         ]
 
         test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
-          const DotenvLoaderSpy = ConstructorSpyGenerator.create({ jest })
-            .generateSpyKitClass(DotenvLoader)
+          const DotenvLoaderSpy = constructorSpy.spyOn(DotenvLoader)
 
           DotenvLoaderSpy.create(args)
 
@@ -239,8 +238,7 @@ describe('DotenvLoader', () => {
         ]
 
         test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
-          const DotenvLoaderSpy = ConstructorSpyGenerator.create({ jest })
-            .generateSpyKitClass(DotenvLoader)
+          const DotenvLoaderSpy = constructorSpy.spyOn(DotenvLoader)
 
           DotenvLoaderSpy.create(args)
 
