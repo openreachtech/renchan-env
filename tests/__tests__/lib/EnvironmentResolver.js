@@ -2,8 +2,6 @@
 
 const dotenv = require('dotenv')
 
-const ConstructorSpyGenerator = require('@openreachtech/renchan-test-tools/lib/spyTools/ConstructorSpyGenerator')
-
 const EnvironmentResolver = require('../../../lib/EnvironmentResolver')
 const DotenvLoader = require('../../../lib/DotenvLoader')
 
