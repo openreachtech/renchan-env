@@ -323,3 +323,59 @@ describe('EnvironmentHandler', () => {
     })
   })
 })
+
+describe('EnvironmentHandler', () => {
+  describe('#isDevelopment()', () => {
+    describe('to be truthy', () => {
+      const cases = [
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'development',
+            },
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
+        const handler = EnvironmentHandler.create(args)
+
+        expect(handler.isDevelopment())
+          .toBeTruthy()
+      })
+    })
+
+    describe('to be falsy', () => {
+      const cases = [
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'production',
+            },
+          },
+        },
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'extra',
+            },
+          },
+        },
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'staging',
+            },
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
+        const handler = EnvironmentHandler.create(args)
+
+        expect(handler.isDevelopment())
+          .toBeFalsy()
+      })
+    })
+  })
+})
