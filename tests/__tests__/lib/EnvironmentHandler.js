@@ -498,3 +498,59 @@ describe('EnvironmentHandler', () => {
     })
   })
 })
+
+describe('EnvironmentHandler', () => {
+  describe('#isPreProduction()', () => {
+    describe('to be truthy', () => {
+      const cases = [
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'development',
+            },
+          },
+        },
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'extra',
+            },
+          },
+        },
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'staging',
+            },
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
+        const handler = EnvironmentHandler.create(args)
+
+        expect(handler.isPreProduction())
+          .toBeTruthy()
+      })
+    })
+
+    describe('to be falsy', () => {
+      const cases = [
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'production',
+            },
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
+        const handler = EnvironmentHandler.create(args)
+
+        expect(handler.isPreProduction())
+          .toBeFalsy()
+      })
+    })
+  })
+})
