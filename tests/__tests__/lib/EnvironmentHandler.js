@@ -2,6 +2,7 @@
 
 const EnvironmentHandler = require('../../../lib/EnvironmentHandler')
 const EnvironmentResolver = require('../../../lib/EnvironmentResolver')
+const { API_HOST } = require('../../app/typedEnv')
 
 describe('EnvironmentHandler', () => {
   describe('constructor', () => {
@@ -550,6 +551,141 @@ describe('EnvironmentHandler', () => {
 
         expect(handler.isPreProduction())
           .toBeFalsy()
+      })
+    })
+  })
+})
+
+describe('EnvironmentHandler', () => {
+  describe('#generateFacade()', () => {
+    describe('to contain #environmentHash', () => {
+      const cases = [
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'development',
+            },
+          },
+          expected: {
+            environmentHash: {
+              NODE_ENV: 'development',
+
+              API_HOST: 'dev.openreach.tech',
+              API_KEY: 'development-api-key',
+            },
+          },
+        },
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'extra',
+            },
+          },
+          expected: {
+            environmentHash: {
+              NODE_ENV: 'extra',
+
+              API_HOST: 'extra.openreach.tech',
+              API_KEY: 'extra-api-key',
+            },
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args, expected }) => {
+        const handler = EnvironmentHandler.create(args)
+
+        const actual = handler.generateFacade()
+
+        // NOTE: #environmentHash is Proxy object, thus can not use #toHaveProperty() here.
+        expect(actual)
+          .toHaveProperty('NODE_ENV', expected.environmentHash.NODE_ENV)
+        expect(actual)
+          .toHaveProperty('API_HOST', expected.environmentHash.API_HOST)
+        expect(actual)
+          .toHaveProperty('API_KEY', expected.environmentHash.API_KEY)
+      })
+    })
+
+    describe('to contain methods of checking NODE_ENV', () => {
+      const cases = [
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'development',
+            },
+          },
+          expected: {
+            isProduction: false,
+            isDevelopment: true,
+            isStaging: false,
+            isLive: false,
+            isPreProduction: true,
+          },
+        },
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'production',
+            },
+          },
+          expected: {
+            isProduction: true,
+            isDevelopment: false,
+            isStaging: false,
+            isLive: false,
+            isPreProduction: false,
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args, expected }) => {
+        const handler = EnvironmentHandler.create(args)
+
+        /** @type {object} */
+        const actual = handler.generateFacade()
+
+        expect(actual.isProduction())
+          .toBe(expected.isProduction)
+        expect(actual.isDevelopment())
+          .toBe(expected.isDevelopment)
+        expect(actual.isStaging())
+          .toBe(expected.isStaging)
+        expect(actual.isLive())
+          .toBe(expected.isLive)
+        expect(actual.isPreProduction())
+          .toBe(expected.isPreProduction)
+      })
+    })
+
+    describe('to throw by calling not existing member', () => {
+      const cases = [
+        {
+          args: {
+            key: 'ALPHA_VALUE',
+          },
+          expected: new Error('environment variable is not defined [ALPHA_VALUE]'),
+        },
+        {
+          args: {
+            key: 'BETA_VALUE',
+          },
+          expected: new Error('environment variable is not defined [BETA_VALUE]'),
+        },
+      ]
+
+      test.each(cases)('key: $args.key', ({ args, expected }) => {
+        const handler = EnvironmentHandler.create({
+          processEnv: {
+            NODE_ENV: 'development',
+          },
+        })
+
+        /** @type {object} */
+        const actual = handler.generateFacade()
+
+        expect(() => actual[args.key])
+          .toThrow(expected)
       })
     })
   })
