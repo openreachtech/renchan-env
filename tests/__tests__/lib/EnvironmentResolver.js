@@ -2,8 +2,6 @@
 
 const dotenv = require('dotenv')
 
-const ConstructorSpyGenerator = require('@openreachtech/renchan-test-tools/lib/spyTools/ConstructorSpyGenerator')
-
 const EnvironmentResolver = require('../../../lib/EnvironmentResolver')
 const DotenvLoader = require('../../../lib/DotenvLoader')
 
@@ -191,8 +189,7 @@ describe('EnvironmentResolver', () => {
             processEnv: process.env,
           }
 
-          const EnvironmentResolverSpy = ConstructorSpyGenerator.create({ jest })
-            .generateSpyKitClass(EnvironmentResolver)
+          const EnvironmentResolverSpy = constructorSpy.spyOn(EnvironmentResolver)
 
           EnvironmentResolverSpy.create(args)
 
@@ -206,8 +203,7 @@ describe('EnvironmentResolver', () => {
             processEnv: process.env,
           }
 
-          const EnvironmentResolverSpy = ConstructorSpyGenerator.create({ jest })
-            .generateSpyKitClass(EnvironmentResolver)
+          const EnvironmentResolverSpy = constructorSpy.spyOn(EnvironmentResolver)
 
           EnvironmentResolverSpy.create()
 
