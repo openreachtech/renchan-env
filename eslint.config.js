@@ -11,6 +11,7 @@ module.exports = [
   {
     ignores: [
       'index.mjs',
+      'scripts/env.mjs',
     ],
   },
 
