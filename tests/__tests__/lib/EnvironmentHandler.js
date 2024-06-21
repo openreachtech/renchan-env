@@ -164,3 +164,33 @@ describe('EnvironmentHandler', () => {
     })
   })
 })
+
+describe('EnvironmentHandler', () => {
+  describe('#get:env', () => {
+    const cases = [
+      {
+        args: {
+          environmentHash: {
+            NODE_ENV: 'development',
+          },
+        },
+      },
+      {
+        args: {
+          environmentHash: {
+            NODE_ENV: 'extra',
+          },
+        },
+      },
+    ]
+
+    test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
+      const handler = new EnvironmentHandler(args)
+
+      const actual = handler.env
+
+      expect(actual)
+        .toBe(args.environmentHash) // same reference
+    })
+  })
+})
