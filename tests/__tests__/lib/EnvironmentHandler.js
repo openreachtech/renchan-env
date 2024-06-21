@@ -76,6 +76,13 @@ describe('EnvironmentHandler', () => {
         expect(handler)
           .toBeInstanceOf(EnvironmentHandler)
       })
+
+      test('with empty args', () => {
+        const handler = EnvironmentHandler.create()
+
+        expect(handler)
+          .toBeInstanceOf(EnvironmentHandler)
+      })
     })
 
     describe('to call constructor of own', () => {
@@ -103,6 +110,19 @@ describe('EnvironmentHandler', () => {
 
         expect(createResolverSpy)
           .toHaveBeenCalledWith(args)
+      })
+
+      test('with empty args', () => {
+        const expected = {
+          processEnv: process.env,
+        }
+
+        const createResolverSpy = jest.spyOn(EnvironmentHandler, 'createResolver')
+
+        EnvironmentHandler.create()
+
+        expect(createResolverSpy)
+          .toHaveBeenCalledWith(expected)
       })
     })
   })
