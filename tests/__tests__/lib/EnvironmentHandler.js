@@ -50,6 +50,64 @@ describe('EnvironmentHandler', () => {
 })
 
 describe('EnvironmentHandler', () => {
+  describe('.create()', () => {
+    describe('to return instance of own class', () => {
+      const cases = [
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'development',
+            },
+          },
+        },
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'extra',
+            },
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args }) => {
+        const handler = EnvironmentHandler.create(args)
+
+        expect(handler)
+          .toBeInstanceOf(EnvironmentHandler)
+      })
+    })
+
+    describe('to call constructor of own', () => {
+      const cases = [
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'development',
+            },
+          },
+        },
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'extra',
+            },
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args }) => {
+        const createResolverSpy = jest.spyOn(EnvironmentHandler, 'createResolver')
+
+        EnvironmentHandler.create(args)
+
+        expect(createResolverSpy)
+          .toHaveBeenCalledWith(args)
+      })
+    })
+  })
+})
+
+describe('EnvironmentHandler', () => {
   describe('.createResolver()', () => {
     describe('to return instance of EnvironmentResolver', () => {
       const cases = [
