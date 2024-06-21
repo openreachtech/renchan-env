@@ -194,3 +194,76 @@ describe('EnvironmentHandler', () => {
     })
   })
 })
+
+describe('EnvironmentHandler', () => {
+  describe('#get:nodeEnv', () => {
+    describe('to return presented value', () => {
+      const cases = [
+        {
+          args: {
+            environmentHash: {
+              NODE_ENV: 'production',
+            },
+          },
+          expected: 'production',
+        },
+        {
+          args: {
+            environmentHash: {
+              NODE_ENV: 'development',
+            },
+          },
+          expected: 'development',
+        },
+        {
+          args: {
+            environmentHash: {
+              NODE_ENV: 'extra',
+            },
+          },
+          expected: 'extra',
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args, expected }) => {
+        const handler = new EnvironmentHandler(args)
+
+        const actual = handler.nodeEnv
+
+        expect(actual)
+          .toBe(expected)
+      })
+    })
+
+    describe('to return no-presented value', () => {
+      const cases = [
+        {
+          args: {
+            environmentHash: undefined,
+          },
+        },
+        {
+          args: {
+            environmentHash: null,
+          },
+        },
+        {
+          args: {
+            environmentHash: {
+              // NODE_ENV: 'production',
+            },
+          },
+        },
+      ]
+
+      test.each(cases)('environmentHash: $args.environmentHash', ({ args, expected }) => {
+        const handler = new EnvironmentHandler(args)
+
+        const actual = handler.nodeEnv
+
+        expect(actual)
+          .toBeNull()
+      })
+    })
+  })
+})
