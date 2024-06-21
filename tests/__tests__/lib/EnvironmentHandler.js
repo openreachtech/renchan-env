@@ -48,3 +48,61 @@ describe('EnvironmentHandler', () => {
     })
   })
 })
+
+describe('EnvironmentHandler', () => {
+  describe('.createResolver()', () => {
+    describe('to return instance of EnvironmentResolver', () => {
+      const cases = [
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'development',
+            },
+          },
+        },
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'extra',
+            },
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args }) => {
+        const resolver = EnvironmentHandler.createResolver(args)
+
+        expect(resolver)
+          .toBeInstanceOf(EnvironmentResolver)
+      })
+    })
+
+    describe('to call EnvironmentResolver.create()', () => {
+      const cases = [
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'development',
+            },
+          },
+        },
+        {
+          args: {
+            processEnv: {
+              NODE_ENV: 'extra',
+            },
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args }) => {
+        const createSpy = jest.spyOn(EnvironmentResolver, 'create')
+
+        EnvironmentHandler.createResolver(args)
+
+        expect(createSpy)
+          .toHaveBeenCalledWith(args)
+      })
+    })
+  })
+})
