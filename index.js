@@ -1,10 +1,16 @@
 'use strict'
 
-const Environment = require('./lib/_')
+const DotenvLoader = require('./lib/DotenvLoader')
+const EnvironmentHandler = require('./lib/EnvironmentHandler')
+const EnvironmentResolver = require('./lib/EnvironmentResolver')
 
 /**
  * The entry point.
  *
  * @module Environment
  */
-module.exports = Environment
+module.exports = {
+  DotenvLoader,
+  EnvironmentHandler,
+  EnvironmentResolver,
+}
