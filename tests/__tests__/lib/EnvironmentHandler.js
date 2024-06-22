@@ -2,7 +2,6 @@
 
 const EnvironmentHandler = require('../../../lib/EnvironmentHandler')
 const EnvironmentResolver = require('../../../lib/EnvironmentResolver')
-const { API_HOST } = require('../../app/typedEnv')
 
 describe('EnvironmentHandler', () => {
   describe('constructor', () => {
