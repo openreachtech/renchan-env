@@ -6,22 +6,31 @@
 
 * You can prepare `.env` files for each `NODE_ENV`.
 
+## Installation
+
+* Node.js is required. If it is not already installed, please do so before proceeding.
+
+  | tools | version |
+  | :-- | :-- |
+  | Node.js | ^20.14.0 |
+  | npm | ^10.5.2 |
+
+* Create a `.npmrc` file in the root directory of your project and add any necessary configurations. This might be required for installing certain npm packages.
+
+* Please add the following line to your `.npmrc` file.
+
+  ```
+  @openreachtech:registry=https://npm.pkg.github.com
+  ```
+
+* You can install `renchan-env` with the following command:
+
+  ```
+  npm install @openreachtech/renchan-env
+  ```
+
 ## Usage
 
-1. Write about npm config in `.npmrc`
-
-  - [ ] Create `.npmrc` on application project root if not exeists.
-  - [ ] Write contents below if it is not exists.
-    ```
-    @openreachtech:registry=https://npm.pkg.github.com
-    ```
-2. install for each application.
-
-  - [ ] install rechan-env.
-
-    ```
-    npm install @openreachtech/renchan-env
-    ```
 3. create require files in application.
 
   - [ ] `[project root]/.env.development` (for `npm test` and `npm run dev`)
