@@ -5,6 +5,19 @@ const dotenv = require('dotenv')
 const EnvironmentResolver = require('../../../lib/EnvironmentResolver')
 const DotenvLoader = require('../../../lib/DotenvLoader')
 
+/*
+ * process.env will be updated by `dotenv.config()`.
+ */
+const processEnv = process.env
+
+beforeEach(() => {
+  process.env = { ...processEnv }
+})
+
+afterEach(() => {
+  process.env = processEnv
+})
+
 describe('EnvironmentResolver', () => {
   describe('constructor', () => {
     /** @type {dotenv.DotenvParseOutput} */
