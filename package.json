@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "Env module - Renchan",
   "files": [
-    "lib/"
+    "index.mjs",
+    "lib/",
+    "scripts/",
+    "types/"
   ],
   "main": "index.js",
   "scripts": {
