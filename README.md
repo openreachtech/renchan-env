@@ -6,11 +6,6 @@
 
 * You can prepare `.env` files for each `NODE_ENV`.
 
-## Release
-
-* 0.0.1 - 2022/05/05
-* 0.0.0 - 2022/03/16
-
 ## Usage
 
 1. Write about npm config in `.npmrc`
