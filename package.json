@@ -3,9 +3,7 @@
   "version": "0.0.1",
   "description": "Env module - Renchan",
   "files": [
-    "lib/",
-    "README.md",
-    "package.json"
+    "lib/"
   ],
   "main": "index.js",
   "scripts": {
