@@ -1,8 +1,10 @@
 # renchan-env
 
-## Description
+## Overview
 
-* This is `Environment` utility for all Renchan applications.
+* This is a module to integrate and manage `process.env` and `.env` file.
+
+* You can prepare `.env` files for each `NODE_ENV`.
 
 ## Release
 
