@@ -9,6 +9,14 @@
     "types/"
   ],
   "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "node": "./index.js",
+      "default": "./index.js"
+    }
+  },
   "scripts": {
     "lint": "eslint .",
     "test": "export NODE_ENV=development; export APP_NAME='App Name Exported in Terminal'; jest --forceExit --detectOpenHandles"
