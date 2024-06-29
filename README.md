@@ -120,6 +120,20 @@ console.log(env.UNKNOWN_KEY) // throws 'environment variable is not defined [UNK
 This project is released under the MIT License.<br>
 See [here](./LICENSE)
 
+## Contribution
+
+We welcome bug reports, feature requests, and code contributions.<br>
+Please feel free to contact us through GitHub Issues or Pull Requests.<br>
+We strive to meet user expectations and your contributions are highly appreciated!
+
+```sh
+git clone https://github.com/openreachtech/renchan-env.git
+cd renchan-env
+npm install
+npm run lint
+npm test
+```
+
 ## Copyright
 
 © 2022 Open Reach Tech inc.
