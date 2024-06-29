@@ -19,7 +19,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "export NODE_ENV=development; export APP_NAME='App Name Exported in Terminal'; jest --forceExit --detectOpenHandles"
+    "test": "export NODE_ENV=development; export APP_NAME='App Name Exported in Terminal'; jest --forceExit --maxWorkers=5"
   },
   "repository": {
     "type": "git",
