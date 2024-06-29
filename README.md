@@ -134,6 +134,10 @@ npm run lint
 npm test
 ```
 
+## Authors
+
+[Open Reach Tech inc.](https://openreach.tech)
+
 ## Copyright
 
 © 2022 Open Reach Tech inc.
