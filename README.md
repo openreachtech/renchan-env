@@ -61,13 +61,13 @@ Create env script as `path/as/you/like/app-env.js`
 
 ```js
 const {
-  EnvironmentHandler
+  EnvironmentFacade
 } = require('@openreachtech/renchan-env')
 
-const handler = EnvironmentHandler.create()
+const facade = EnvironmentFacade.create()
 
 module.exports = /** @type {EnvType} */ (
-  handler.generateFacade()
+  facade.generateFacade()
 )
 
 /**
