@@ -140,4 +140,4 @@ npm test
 
 ## Copyright
 
-© 2022 Open Reach Tech inc.
+© 2024 Open Reach Tech inc.
