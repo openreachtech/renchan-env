@@ -1,5 +1,5 @@
-import EnvironmentHandler from '../lib/EnvironmentFacade.js/index.js'
+import EnvironmentFacade from '../lib/EnvironmentFacade.js'
 
-const handler = EnvironmentHandler.create()
+const handler = EnvironmentFacade.create()
 
 export default handler.generateFacade()
