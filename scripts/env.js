@@ -2,6 +2,6 @@
 
 const EnvironmentFacade = require('../lib/EnvironmentFacade')
 
-const handler = EnvironmentFacade.create()
+const facade = EnvironmentFacade.create()
 
-module.exports = handler.generateFacade()
+module.exports = facade.generateFacade()

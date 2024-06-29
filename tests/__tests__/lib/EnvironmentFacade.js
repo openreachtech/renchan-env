@@ -38,10 +38,10 @@ describe('EnvironmentFacade', () => {
         ]
 
         test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
-          const handler = new EnvironmentFacade(args)
+          const facade = new EnvironmentFacade(args)
 
           // NOTE: #environmentHash is Proxy object, thus can not use #toHaveProperty() here.
-          expect(handler.environmentHash)
+          expect(facade.environmentHash)
             .toBe(args.environmentHash)
         })
       })
@@ -70,16 +70,16 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
-        expect(handler)
+        expect(facade)
           .toBeInstanceOf(EnvironmentFacade)
       })
 
       test('with empty args', () => {
-        const handler = EnvironmentFacade.create()
+        const facade = EnvironmentFacade.create()
 
-        expect(handler)
+        expect(facade)
           .toBeInstanceOf(EnvironmentFacade)
       })
     })
@@ -205,9 +205,9 @@ describe('EnvironmentFacade', () => {
     ]
 
     test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
-      const handler = new EnvironmentFacade(args)
+      const facade = new EnvironmentFacade(args)
 
-      const actual = handler.env
+      const actual = facade.env
 
       expect(actual)
         .toBe(args.environmentHash) // same reference
@@ -246,9 +246,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args, expected }) => {
-        const handler = new EnvironmentFacade(args)
+        const facade = new EnvironmentFacade(args)
 
-        const actual = handler.nodeEnv
+        const actual = facade.nodeEnv
 
         expect(actual)
           .toBe(expected)
@@ -277,9 +277,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('environmentHash: $args.environmentHash', ({ args, expected }) => {
-        const handler = new EnvironmentFacade(args)
+        const facade = new EnvironmentFacade(args)
 
-        const actual = handler.nodeEnv
+        const actual = facade.nodeEnv
 
         expect(actual)
           .toBeNull()
@@ -302,9 +302,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
-        expect(handler.isProduction())
+        expect(facade.isProduction())
           .toBeTruthy()
       })
     })
@@ -335,9 +335,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
-        expect(handler.isProduction())
+        expect(facade.isProduction())
           .toBeFalsy()
       })
     })
@@ -358,9 +358,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
-        expect(handler.isDevelopment())
+        expect(facade.isDevelopment())
           .toBeTruthy()
       })
     })
@@ -391,9 +391,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
-        expect(handler.isDevelopment())
+        expect(facade.isDevelopment())
           .toBeFalsy()
       })
     })
@@ -414,9 +414,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
-        expect(handler.isStaging())
+        expect(facade.isStaging())
           .toBeTruthy()
       })
     })
@@ -447,9 +447,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
-        expect(handler.isStaging())
+        expect(facade.isStaging())
           .toBeFalsy()
       })
     })
@@ -470,9 +470,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
-        expect(handler.isLive())
+        expect(facade.isLive())
           .toBeTruthy()
       })
     })
@@ -510,9 +510,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
-        expect(handler.isLive())
+        expect(facade.isLive())
           .toBeFalsy()
       })
     })
@@ -547,9 +547,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
-        expect(handler.isPreProduction())
+        expect(facade.isPreProduction())
           .toBeTruthy()
       })
     })
@@ -566,9 +566,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.environmentHash.NODE_ENV', ({ args }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
-        expect(handler.isPreProduction())
+        expect(facade.isPreProduction())
           .toBeFalsy()
       })
     })
@@ -612,9 +612,9 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args, expected }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
-        const actual = handler.generateFacade()
+        const actual = facade.generateFacade()
 
         // NOTE: #environmentHash is Proxy object, thus can not use #toHaveProperty() here.
         expect(actual)
@@ -659,10 +659,10 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('NODE_ENV: $args.processEnv.NODE_ENV', ({ args, expected }) => {
-        const handler = EnvironmentFacade.create(args)
+        const facade = EnvironmentFacade.create(args)
 
         /** @type {object} */
-        const actual = handler.generateFacade()
+        const actual = facade.generateFacade()
 
         expect(actual.isProduction())
           .toBe(expected.isProduction)
@@ -694,14 +694,14 @@ describe('EnvironmentFacade', () => {
       ]
 
       test.each(cases)('key: $args.key', ({ args, expected }) => {
-        const handler = EnvironmentFacade.create({
+        const facade = EnvironmentFacade.create({
           processEnv: {
             NODE_ENV: 'development',
           },
         })
 
         /** @type {object} */
-        const actual = handler.generateFacade()
+        const actual = facade.generateFacade()
 
         expect(() => actual[args.key])
           .toThrow(expected)
