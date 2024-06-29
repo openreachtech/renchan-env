@@ -115,6 +115,11 @@ const env = require('path/as/you/like/app-env')
 console.log(env.UNKNOWN_KEY) // throws 'environment variable is not defined [UNKNOWN_KEY]'
 ```
 
+## License
+
+This project is released under the MIT License.<br>
+See [here](./LICENSE)
+
 ## Copyright
 
 © 2022 Open Reach Tech inc.
