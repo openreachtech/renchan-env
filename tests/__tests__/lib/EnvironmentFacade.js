@@ -3,7 +3,7 @@
 const EnvironmentFacade = require('../../../lib/EnvironmentFacade')
 const EnvironmentResolver = require('../../../lib/EnvironmentResolver')
 
-describe('EnvironmentHandler', () => {
+describe('EnvironmentFacade', () => {
   describe('constructor', () => {
     /** @type {EnvironmentResolver.EnvironmentResolverParams} */
     const resolverArgs = {
@@ -49,7 +49,7 @@ describe('EnvironmentHandler', () => {
   })
 })
 
-describe('EnvironmentHandler', () => {
+describe('EnvironmentFacade', () => {
   describe('.create()', () => {
     describe('to return instance of own class', () => {
       const cases = [
@@ -127,7 +127,7 @@ describe('EnvironmentHandler', () => {
   })
 })
 
-describe('EnvironmentHandler', () => {
+describe('EnvironmentFacade', () => {
   describe('.createResolver()', () => {
     describe('to return instance of EnvironmentResolver', () => {
       const cases = [
@@ -185,7 +185,7 @@ describe('EnvironmentHandler', () => {
   })
 })
 
-describe('EnvironmentHandler', () => {
+describe('EnvironmentFacade', () => {
   describe('#get:env', () => {
     const cases = [
       {
@@ -215,7 +215,7 @@ describe('EnvironmentHandler', () => {
   })
 })
 
-describe('EnvironmentHandler', () => {
+describe('EnvironmentFacade', () => {
   describe('#get:nodeEnv', () => {
     describe('to return presented value', () => {
       const cases = [
@@ -288,7 +288,7 @@ describe('EnvironmentHandler', () => {
   })
 })
 
-describe('EnvironmentHandler', () => {
+describe('EnvironmentFacade', () => {
   describe('#isProduction()', () => {
     describe('to be truthy', () => {
       const cases = [
@@ -344,7 +344,7 @@ describe('EnvironmentHandler', () => {
   })
 })
 
-describe('EnvironmentHandler', () => {
+describe('EnvironmentFacade', () => {
   describe('#isDevelopment()', () => {
     describe('to be truthy', () => {
       const cases = [
@@ -400,7 +400,7 @@ describe('EnvironmentHandler', () => {
   })
 })
 
-describe('EnvironmentHandler', () => {
+describe('EnvironmentFacade', () => {
   describe('#isStaging()', () => {
     describe('to be truthy', () => {
       const cases = [
@@ -456,7 +456,7 @@ describe('EnvironmentHandler', () => {
   })
 })
 
-describe('EnvironmentHandler', () => {
+describe('EnvironmentFacade', () => {
   describe('#isLive()', () => {
     describe('to be truthy', () => {
       const cases = [
@@ -519,7 +519,7 @@ describe('EnvironmentHandler', () => {
   })
 })
 
-describe('EnvironmentHandler', () => {
+describe('EnvironmentFacade', () => {
   describe('#isPreProduction()', () => {
     describe('to be truthy', () => {
       const cases = [
@@ -575,7 +575,7 @@ describe('EnvironmentHandler', () => {
   })
 })
 
-describe('EnvironmentHandler', () => {
+describe('EnvironmentFacade', () => {
   describe('#generateFacade()', () => {
     describe('to contain #environmentHash', () => {
       const cases = [
