@@ -31,64 +31,89 @@
 
 ## Usage
 
-3. create require files in application.
+### Naming filename of `.env`
 
-  - [ ] `[project root]/.env.development` (for `npm test` and `npm run dev`)
-    ```
-    API_HOST = openreach.tech
-    API_KEY = hash-of-api-key
-    ```
-  - [ ] `[project root]/as/you/like/appEnv.js`
+Can switch using `.env` file by value of `process.env.NODE_ENV` automatically.
 
-    ```
-    const Environment = require('@openreachtech/renchan-env')
+| value of `process.env.NODE_ENV` | filename of target `.env` |
+| :-- | :-- |
+| development | `.env.development` |
+| staging | `.env.staging` |
+| live | `.env.live` |
+| production | `.env` |
 
-    module.exports = /** @type {{
-      NODE_ENV: string,
+### Code Example
 
-      API_HOST: string,
-      API_KEY: string,
-    }} */ (Environment.createEnv())
-    ```
-4. call env from application code.
+We give a code example when `NODE_ENV` is `development`.
 
-  * Sample code.
+#### (1) Create `.env.development`
 
-    ```sample.js
-    const ApiClient = require('api/ApiClient')
-    const env = require('as/you/like/appEnv')
+Create `.env.development` in project root
 
-    const client = new ApiClient({
-      API_HOST: env.API_HOST,
-      API_KEY: env.API_KEY,
-    })
+```
+API_HOST = openreach.tech
+API_KEY = hash-of-api-key
+```
 
-    console.log(env.NODE_ENV)
-    ```
+### (2) File for type resolution and handling of `.env.development`
+
+Create env script as `path/as/you/like/app-env.js`
+
+```js
+const {
+  EnvironmentHandler
+} = require('@openreachtech/renchan-env')
+
+const handler = EnvironmentHandler.create()
+
+module.exports = /** @type {EnvType} */ (
+  handler.generateFacade()
+)
+
+/**
+ * @typedef {{
+ *   NODE_ENV: string
+ *   API_HOST: string
+ *   API_KEY: string
+ * }} EnvType
+ */
+```
+
+### (3) Call `.env.development` from Application Code.
+
+```js
+const ApiClient = require('api/ApiClient')
+const env = require('path/as/you/like/app-env')
+
+const client = new ApiClient({
+  API_HOST: env.API_HOST,
+  API_KEY: env.API_KEY,
+})
+```
 
 ## Exceptions
 
 ### No .env file
 
-* When can not open `.env` (or `.env.development`), throws as follows:
+When can not open `.env` which target by value of NODE_ENV, throws as follows:
 
-  ```
-  ENOENT: no such file or directory, open [project root]/.env.development
-  ```
+```
+ENOENT: no such file or directory, open [project root]/.env.development
+```
 
 ### No key of environment variable
 
-* If access to env instance with undefined key, throws as follows:
+If access to env instance with undefined key, throws as follows:
 
-  ```
-  environment variable is not defined [access key]
-  ```
+```
+environment variable is not defined [access key]
+```
 
-  ```sample.js
-  const env = require('as/you/like/appEnv')
+```js
+const env = require('path/as/you/like/app-env')
 
-  console.log(env.UNKNOWN_KEY) // throws 'environment variable is not defined [UNKNOWN_KEY]'
-  ```
+console.log(env.UNKNOWN_KEY) // throws 'environment variable is not defined [UNKNOWN_KEY]'
+```
 
 ## Copyright
 
