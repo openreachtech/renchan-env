@@ -1,6 +1,6 @@
 'use strict'
 
-const EnvironmentHandler = require('../lib/EnvironmentHandler')
+const EnvironmentHandler = require('../lib/EnvironmentFacade')
 
 const handler = EnvironmentHandler.create()
 

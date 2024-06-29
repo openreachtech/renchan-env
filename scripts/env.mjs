@@ -1,4 +1,4 @@
-import EnvironmentHandler from '../lib/EnvironmentHandler.js'
+import EnvironmentHandler from '../lib/EnvironmentFacade.js/index.js'
 
 const handler = EnvironmentHandler.create()
 

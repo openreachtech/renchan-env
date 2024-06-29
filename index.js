@@ -1,7 +1,7 @@
 'use strict'
 
 const DotenvLoader = require('./lib/DotenvLoader')
-const EnvironmentHandler = require('./lib/EnvironmentHandler')
+const EnvironmentHandler = require('./lib/EnvironmentFacade')
 const EnvironmentResolver = require('./lib/EnvironmentResolver')
 
 /**

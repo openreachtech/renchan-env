@@ -3,7 +3,7 @@
 const mainExports = require('../../index')
 
 const DotenvLoader = require('../../lib/DotenvLoader')
-const EnvironmentHandler = require('../../lib/EnvironmentHandler')
+const EnvironmentHandler = require('../../lib/EnvironmentFacade')
 const EnvironmentResolver = require('../../lib/EnvironmentResolver')
 
 describe('main exports', () => {
