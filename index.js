@@ -1,7 +1,7 @@
 'use strict'
 
 const DotenvLoader = require('./lib/DotenvLoader')
-const EnvironmentHandler = require('./lib/EnvironmentHandler')
+const EnvironmentFacade = require('./lib/EnvironmentFacade')
 const EnvironmentResolver = require('./lib/EnvironmentResolver')
 
 /**
@@ -11,6 +11,6 @@ const EnvironmentResolver = require('./lib/EnvironmentResolver')
  */
 module.exports = {
   DotenvLoader,
-  EnvironmentHandler,
+  EnvironmentFacade,
   EnvironmentResolver,
 }

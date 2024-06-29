@@ -3,7 +3,7 @@
 const mainExports = require('../../index')
 
 const DotenvLoader = require('../../lib/DotenvLoader')
-const EnvironmentHandler = require('../../lib/EnvironmentHandler')
+const EnvironmentFacade = require('../../lib/EnvironmentFacade')
 const EnvironmentResolver = require('../../lib/EnvironmentResolver')
 
 describe('main exports', () => {
@@ -15,7 +15,7 @@ describe('main exports', () => {
     },
     {
       args: {
-        ExportedClass: EnvironmentHandler,
+        ExportedClass: EnvironmentFacade,
       },
     },
     {

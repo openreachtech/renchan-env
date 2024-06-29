@@ -1,7 +1,7 @@
 'use strict'
 
-const EnvironmentHandler = require('../lib/EnvironmentHandler')
+const EnvironmentFacade = require('../lib/EnvironmentFacade')
 
-const handler = EnvironmentHandler.create()
+const facade = EnvironmentFacade.create()
 
-module.exports = handler.generateFacade()
+module.exports = facade.generateFacade()
