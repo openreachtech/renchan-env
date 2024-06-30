@@ -1,89 +1,143 @@
 # renchan-env
 
-## Description
+## Overview
 
-* This is `Environment` utility for all Renchan applications.
+* This is a module to integrate and manage `process.env` and `.env` file.
 
-## Release
+* You can prepare `.env` files for each `NODE_ENV`.
 
-* 0.0.1 - 2022/05/05
-* 0.0.0 - 2022/03/16
+## Installation
+
+* Node.js is required. If it is not already installed, please do so before proceeding.
+
+  | tools | version |
+  | :-- | :-- |
+  | Node.js | ^20.14.0 |
+  | npm | ^10.5.2 |
+
+* Create a `.npmrc` file in the root directory of your project and add any necessary configurations. This might be required for installing certain npm packages.
+
+* Please add the following line to your `.npmrc` file.
+
+  ```
+  @openreachtech:registry=https://npm.pkg.github.com
+  ```
+
+* You can install `renchan-env` with the following command:
+
+  ```
+  npm install @openreachtech/renchan-env
+  ```
 
 ## Usage
 
-1. Write about npm config in `.npmrc`
+### Naming filename of `.env`
 
-  - [ ] Create `.npmrc` on application project root if not exeists.
-  - [ ] Write contents below if it is not exists.
-    ```
-    @openreachtech:registry=https://npm.pkg.github.com
-    ```
-2. install for each application.
+Can switch using `.env` file by value of `process.env.NODE_ENV` automatically.
 
-  - [ ] install rechan-env.
+| value of `process.env.NODE_ENV` | filename of target `.env` |
+| :-- | :-- |
+| development | `.env.development` |
+| staging | `.env.staging` |
+| live | `.env.live` |
+| production | `.env` |
 
-    ```
-    npm install @openreachtech/renchan-env
-    ```
-3. create require files in application.
+### Code Example
 
-  - [ ] `[project root]/.env.development` (for `npm test` and `npm run dev`)
-    ```
-    API_HOST = openreach.tech
-    API_KEY = uhyouhyo
-    ```
-  - [ ] `[project root]/as/you/like/appEnv.js`
+We give a code example when `NODE_ENV` is `development`.
 
-    ```
-    const Environment = require('@openreachtech/renchan-env')
+#### (1) Create `.env.development`
 
-    module.exports = /** @type {{
-      NODE_ENV: string,
+Create `.env.development` in project root
 
-      API_HOST: string,
-      API_KEY: string,
-    }} */ (Environment.createEnv())
-    ```
-4. call env from application code.
+```
+API_HOST = openreach.tech
+API_KEY = hash-of-api-key
+```
 
-  * Sapmle code.
+### (2) File for type resolution and handling of `.env.development`
 
-    ```sample.js
-    const ApiClient = require('api/ApiClient')
-    const env = require('as/you/like/appEnv')
+Create env script as `path/as/you/like/app-env.js`
 
-    const client = new ApiClient({
-      API_HOST: env.API_HOST,
-      API_KEY: env.API_KEY,
-    })
+```js
+const {
+  EnvironmentFacade
+} = require('@openreachtech/renchan-env')
 
-    console.log(env.NODE_ENV)
-    ```
+const facade = EnvironmentFacade.create()
+
+module.exports = /** @type {EnvType} */ (
+  facade.generateFacade()
+)
+
+/**
+ * @typedef {{
+ *   NODE_ENV: string
+ *   API_HOST: string
+ *   API_KEY: string
+ * }} EnvType
+ */
+```
+
+### (3) Call `.env.development` from Application Code.
+
+```js
+const ApiClient = require('api/ApiClient')
+const env = require('path/as/you/like/app-env')
+
+const client = new ApiClient({
+  API_HOST: env.API_HOST,
+  API_KEY: env.API_KEY,
+})
+```
 
 ## Exceptions
 
 ### No .env file
 
-* When can not open `.env` (or `.env.development`), throws as follows:
+When can not open `.env` which target by value of NODE_ENV, throws as follows:
 
-  ```
-  ENOENT: no such file or directory, open [project root]/.env.development
-  ```
+```
+ENOENT: no such file or directory, open [project root]/.env.development
+```
 
 ### No key of environment variable
 
-* If access to env instance with undefined key, throws as follows:
+If access to env instance with undefined key, throws as follows:
 
-  ```
-  environment variable is not defined [access key]
-  ```
+```
+environment variable is not defined [access key]
+```
 
-  ```sample.js
-  const env = require('as/you/like/appEnv')
+```js
+const env = require('path/as/you/like/app-env')
 
-  console.log(env.UNKNOWN_KEY) // throws 'environment variable is not defined [UNKNOWN_KEY]'
-  ```
+console.log(env.UNKNOWN_KEY) // throws 'environment variable is not defined [UNKNOWN_KEY]'
+```
+
+## License
+
+This project is released under the MIT License.<br>
+See [here](./LICENSE)
+
+## Contribution
+
+We welcome bug reports, feature requests, and code contributions.<br>
+Please feel free to contact us through GitHub Issues or Pull Requests.<br>
+We strive to meet user expectations and your contributions are highly appreciated!
+
+```sh
+git clone https://github.com/openreachtech/renchan-env.git
+cd renchan-env
+npm install
+npm run lint
+npm test
+```
+
+## Authors
+
+[Open Reach Tech inc.](https://openreach.tech)
 
 ## Copyright
 
-© 2022 Open Reach Tech inc.
+© 2024 Open Reach Tech inc.

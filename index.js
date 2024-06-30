@@ -1,11 +1,16 @@
-// @ts-check
 'use strict'
 
-const Environment = require('./lib/_')
+const DotenvLoader = require('./lib/DotenvLoader')
+const EnvironmentFacade = require('./lib/EnvironmentFacade')
+const EnvironmentResolver = require('./lib/EnvironmentResolver')
 
 /**
  * The entry point.
  *
  * @module Environment
  */
-module.exports = Environment
+module.exports = {
+  DotenvLoader,
+  EnvironmentFacade,
+  EnvironmentResolver,
+}

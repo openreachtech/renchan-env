@@ -1,201 +1,542 @@
-// @ts-check
 'use strict'
+
+const dotenv = require('dotenv')
 
 const DotenvLoader = require('../../../lib/DotenvLoader')
 
 describe('DotenvLoader', () => {
+  describe('constructor', () => {
+    describe('to keep property', () => {
+      describe('#dotenvHandler', () => {
+        /**
+         * @type {Array<{
+         *   args: {
+         *     dotenvHandler: dotenv
+         *   }
+         * }>}
+         */
+        const cases = /** @type {Array<object>} */ ([
+          {
+            args: {
+              dotenvHandler: dotenv,
+            },
+          },
+          {
+            args: {
+              dotenvHandler: {},
+            },
+          },
+        ])
+
+        test.each(cases)('dotenvHandler: $args.dotenvHandler', ({ args }) => {
+          const targetArgs = {
+            dotenvHandler: args.dotenvHandler,
+            nodeEnv: 'extra',
+          }
+
+          const loader = new DotenvLoader(targetArgs)
+
+          expect(loader)
+            .toHaveProperty('dotenvHandler', args.dotenvHandler)
+        })
+      })
+
+      describe('#nodeEnv', () => {
+        const cases = [
+          {
+            args: {
+              nodeEnv: 'production',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'development',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'staging',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'extra',
+            },
+          },
+        ]
+
+        test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+          const targetArgs = {
+            dotenvHandler: dotenv,
+            nodeEnv: args.nodeEnv,
+          }
+
+          const loader = new DotenvLoader(targetArgs)
+
+          expect(loader)
+            .toHaveProperty('nodeEnv', args.nodeEnv)
+        })
+      })
+    })
+  })
+})
+
+describe('DotenvLoader', () => {
+  describe('.create()', () => {
+    describe('to return instance of own class', () => {
+      describe('with dotenvHandler', () => {
+        const cases = [
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'production',
+            },
+          },
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'development',
+            },
+          },
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'staging',
+            },
+          },
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'extra',
+            },
+          },
+        ]
+
+        test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+          const loader = DotenvLoader.create(args)
+
+          expect(loader)
+            .toBeInstanceOf(DotenvLoader)
+        })
+      })
+
+      describe('without dotenvHandler', () => {
+        const cases = [
+          {
+            args: {
+              // dotenvHandler: dotenv,
+              nodeEnv: 'production',
+            },
+          },
+          {
+            args: {
+              // dotenvHandler: dotenv,
+              nodeEnv: 'development',
+            },
+          },
+          {
+            args: {
+              // dotenvHandler: dotenv,
+              nodeEnv: 'staging',
+            },
+          },
+          {
+            args: {
+              // dotenvHandler: dotenv,
+              nodeEnv: 'extra',
+            },
+          },
+        ]
+
+        test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+          const loader = DotenvLoader.create(args)
+
+          expect(loader)
+            .toBeInstanceOf(DotenvLoader)
+        })
+      })
+    })
+
+    describe('to call constructor', () => {
+      describe('with dotenvHandler', () => {
+        const cases = [
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'production',
+            },
+          },
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'development',
+            },
+          },
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'staging',
+            },
+          },
+          {
+            args: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'extra',
+            },
+          },
+        ]
+
+        test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+          const DotenvLoaderSpy = constructorSpy.spyOn(DotenvLoader)
+
+          DotenvLoaderSpy.create(args)
+
+          expect(DotenvLoaderSpy.__spy__)
+            .toHaveBeenCalledWith(args)
+        })
+      })
+
+      describe('without dotenvHandler', () => {
+        const cases = [
+          {
+            args: {
+              nodeEnv: 'production',
+            },
+            expected: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'production',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'development',
+            },
+            expected: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'development',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'staging',
+            },
+            expected: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'staging',
+            },
+          },
+          {
+            args: {
+              nodeEnv: 'extra',
+            },
+            expected: {
+              dotenvHandler: dotenv,
+              nodeEnv: 'extra',
+            },
+          },
+        ]
+
+        test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
+          const DotenvLoaderSpy = constructorSpy.spyOn(DotenvLoader)
+
+          DotenvLoaderSpy.create(args)
+
+          expect(DotenvLoaderSpy.__spy__)
+            .toHaveBeenCalledWith(expected)
+        })
+      })
+    })
+  })
+})
+
+describe('DotenvLoader', () => {
   describe('#resolveDotenvPath()', () => {
     describe('throw exception', () => {
-      const cases = [
-        null,
-        undefined,
-        '',
-      ]
+      /**
+       * @type {Array<{
+       *   args: DotenvLoader.DotenvLoaderFactoryParams
+       * }>}
+       */
+      const cases = /** @type {Array<*>} */ ([
+        {
+          args: {
+            nodeEnv: null,
+          },
+        },
+        {
+          args: {
+            nodeEnv: undefined,
+          },
+        },
+        {
+          args: {
+            nodeEnv: '',
+          },
+        },
+      ])
 
-      test.each(cases)('%s', (nodeEnv) => {
-        const env = new DotenvLoader(nodeEnv)
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+        const loader = DotenvLoader.create(args)
 
-        expect(() => env.resolveDotenvPath())
+        expect(() => loader.resolveDotenvPath())
           .toThrowError('no NODE_ENV')
       })
     })
 
     describe('with NODE_ENV', () => {
-      const cases = [
-        ['development', '/.env.development'],
-        ['staging', '/.env.staging'],
-        ['extra', '/.env.extra'],
-      ]
+      /**
+       * @type {Array<{
+       *   args: DotenvLoader.DotenvLoaderFactoryParams
+       *   expected: RegExp
+       * }>}
+       */
+      const cases = /** @type {Array<*>} */ ([
+        {
+          args: {
+            nodeEnv: 'development',
+          },
+          expected: /\.env\.development$/u,
+        },
+        {
+          args: {
+            nodeEnv: 'staging',
+          },
+          expected: /\.env\.staging$/u,
+        },
+        {
+          args: {
+            nodeEnv: 'extra',
+          },
+          expected: /\.env\.extra$/u,
+        },
+      ])
 
-      test.each(cases)('%s', (nodeEnv, fileName) => {
-        const env = new DotenvLoader(nodeEnv)
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
+        const loader = DotenvLoader.create(args)
 
-        expect(env.resolveDotenvPath().endsWith(fileName)).toBeTruthy()
+        const actual = loader.resolveDotenvPath()
+
+        expect(actual)
+          .toMatch(expected)
       })
 
       test('NODE_ENV: production', () => {
-        const env = new DotenvLoader('production')
+        const loader = DotenvLoader.create({
+          nodeEnv: 'production',
+        })
 
-        expect(env.resolveDotenvPath()).toBeNull()
+        const actual = loader.resolveDotenvPath()
+
+        expect(actual)
+          .toBeNull()
       })
     })
   })
+})
 
-  describe('#createDotenvOptions()', () => {
+describe('DotenvLoader', () => {
+  describe('#generateDotenvOptions()', () => {
     describe('throw exception', () => {
-      const cases = [
-        null,
-        undefined,
-        '',
-      ]
+      /**
+       * @type {Array<{
+       *   args: DotenvLoader.DotenvLoaderFactoryParams
+       * }>}
+       */
+      const cases = /** @type {Array<object>} */ ([
+        {
+          args: {
+            nodeEnv: null,
+          },
+        },
+        {
+          args: {
+            nodeEnv: undefined,
+          },
+        },
+        {
+          args: {
+            nodeEnv: '',
+          },
+        },
+      ])
 
-      test.each(cases)('%s', (nodeEnv) => {
-        const env = new DotenvLoader(nodeEnv)
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+        const loader = DotenvLoader.create(args)
 
-        expect(() => env.createDotenvOptions())
-          .toThrowError('no NODE_ENV')
+        expect(() => loader.generateDotenvOptions())
+          .toThrow('no NODE_ENV')
       })
     })
 
     describe('with NODE_ENV', () => {
-      const cases = [
-        ['development', '/.env.development'],
-        ['staging', '/.env.staging'],
-        ['extra', '/.env.extra'],
-      ]
+      /**
+       * @type {Array<{
+       *   args: DotenvLoader.DotenvLoaderFactoryParams
+       *   expected: RegExp
+       * }>}
+       */
+      const cases = /** @type {Array<object>} */ ([
+        {
+          args: {
+            nodeEnv: 'development',
+          },
+          expected: /\.env\.development$/u,
+        },
+        {
+          args: {
+            nodeEnv: 'staging',
+          },
+          expected: /\.env\.staging$/u,
+        },
+        {
+          args: {
+            nodeEnv: 'extra',
+          },
+          expected: /\.env\.extra$/u,
+        },
+      ])
 
-      test.each(cases)('%s', (nodeEnv, fileName) => {
-        const env = new DotenvLoader(nodeEnv)
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
+        const loader = DotenvLoader.create(args)
 
-        expect(env.createDotenvOptions().path.endsWith(fileName)).toBeTruthy()
+        const actual = loader.generateDotenvOptions()
+
+        expect(actual.path)
+          .toMatch(expected)
       })
 
       test('NODE_ENV: production', () => {
-        const env = new DotenvLoader('production')
+        const loader = DotenvLoader.create({
+          nodeEnv: 'production',
+        })
 
-        expect(env.createDotenvOptions()).toEqual({})
+        const actual = loader.generateDotenvOptions()
+
+        expect(actual)
+          .toEqual({})
       })
     })
   })
+})
+
+describe('DotenvLoader', () => {
 
   describe('#loadConfig()', () => {
     describe('throw exception', () => {
       const cases = [
         {
-          nodeEnv: 'notfound',
-          errorPattern: /^ENOENT: no such file or directory, open /
+          args: {
+            nodeEnv: 'notfound',
+          },
+          expected: /^ENOENT: no such file or directory, open /u,
         },
       ]
 
-      test.each(cases)('%s', ({
-        nodeEnv,
-        errorPattern,
-      }) => {
-        const env = new DotenvLoader(nodeEnv)
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
+        const loader = DotenvLoader.create(args)
 
-        expect(() => env.loadConfig())
-          .toThrowError(errorPattern)
+        expect(() => loader.loadConfig())
+          .toThrowError(expected)
       })
     })
 
     describe('with NODE_ENV', () => {
       const cases = [
         {
-          nodeEnv: 'production',
-          envBody: {
+          args: {
+            nodeEnv: 'production',
+          },
+          expected: {
             API_HOST: 'openreach.tech',
-            API_KEY: 'uhyouhyo',
-          }
+            API_KEY: 'production-api-key',
+          },
         },
         {
-          nodeEnv: 'development',
-          envBody: {
+          args: {
+            nodeEnv: 'development',
+          },
+          expected: {
             API_HOST: 'dev.openreach.tech',
-            API_KEY: 'devdev',
-          }
+            API_KEY: 'development-api-key',
+          },
         },
         {
-          nodeEnv: 'staging',
-          envBody: {
+          args: {
+            nodeEnv: 'staging',
+          },
+          expected: {
             API_HOST: 'staging.openreach.tech',
-            API_KEY: 'staginguhyo',
-          }
+            API_KEY: 'staging-api-key',
+          },
         },
         {
-          nodeEnv: 'extra',
-          envBody: {
+          args: {
+            nodeEnv: 'extra',
+          },
+          expected: {
             API_HOST: 'extra.openreach.tech',
-            API_KEY: 'extraextra',
-          }
+            API_KEY: 'extra-api-key',
+          },
         },
       ]
 
-      test.each(cases)('%s', ({
-        nodeEnv,
-        envBody
-      }) => {
-        const env = new DotenvLoader(nodeEnv)
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args, expected }) => {
+        const loader = DotenvLoader.create(args)
 
-        expect(env.loadConfig()).toEqual(envBody)
-      })
-    })
-  })
+        const actual = loader.loadConfig()
 
-  describe('.load()', () => {
-    describe('throw exception', () => {
-      const cases = [
-        {
-          nodeEnv: 'notfound',
-          errorPattern: /^ENOENT: no such file or directory, open /
-        },
-      ]
-
-      test.each(cases)('%s', ({
-        nodeEnv,
-        errorPattern,
-      }) => {
-        expect(() => DotenvLoader.load(nodeEnv))
-          .toThrowError(errorPattern)
+        expect(actual)
+          .toEqual(expected)
       })
     })
 
-    describe('with NODE_ENV', () => {
+    describe('to call #dotenvHandler', () => {
       const cases = [
         {
-          nodeEnv: 'production',
-          envBody: {
-            API_HOST: 'openreach.tech',
-            API_KEY: 'uhyouhyo',
-          }
+          args: {
+            nodeEnv: 'production',
+          },
         },
         {
-          nodeEnv: 'development',
-          envBody: {
-            API_HOST: 'dev.openreach.tech',
-            API_KEY: 'devdev',
-          }
+          args: {
+            nodeEnv: 'development',
+          },
         },
         {
-          nodeEnv: 'staging',
-          envBody: {
-            API_HOST: 'staging.openreach.tech',
-            API_KEY: 'staginguhyo',
-          }
+          args: {
+            nodeEnv: 'staging',
+          },
         },
         {
-          nodeEnv: 'extra',
-          envBody: {
-            API_HOST: 'extra.openreach.tech',
-            API_KEY: 'extraextra',
-          }
+          args: {
+            nodeEnv: 'extra',
+          },
         },
       ]
 
-      test.each(cases)('%s', ({
-        nodeEnv,
-        envBody
-      }) => {
-        expect(DotenvLoader.load(nodeEnv)).toEqual(envBody)
+      test.each(cases)('nodeEnv: $args.nodeEnv', ({ args }) => {
+        const loader = DotenvLoader.create(args)
+
+        const tallyParsed = /** @type {*} */ ({})
+        const tallyOptions = /** @type {*} */ ({})
+        const tallyDotenv = /** @type {*} */ ({
+          parsed: tallyParsed,
+        })
+
+        const configSpy = jest.spyOn(loader.dotenvHandler, 'config')
+          .mockReturnValue(tallyDotenv)
+        const generateDotenvOptionsSpy = jest.spyOn(loader, 'generateDotenvOptions')
+          .mockReturnValue(tallyOptions)
+
+        const actual = loader.loadConfig()
+
+        expect(actual)
+          .toBe(tallyParsed) // same reference
+        expect(configSpy)
+          .toHaveBeenCalledWith(tallyOptions)
+
+        configSpy.mockRestore()
+        generateDotenvOptionsSpy.mockRestore()
       })
     })
   })
