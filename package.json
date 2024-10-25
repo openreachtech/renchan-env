@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/openreachtech/renchan-env#readme",
   "dependencies": {
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "@openreachtech/eslint-config": "^3.0.2",
