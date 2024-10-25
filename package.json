@@ -40,7 +40,7 @@
     "@openreachtech/eslint-config": "^3.0.2",
     "@openreachtech/jest-constructor-spy": "^1.1.0",
     "@types/jest": "^27.4.1",
-    "eslint": "^9.4.0",
+    "eslint": "^9.13.0",
     "jest": "^27.5.1"
   }
 }
