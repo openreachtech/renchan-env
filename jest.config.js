@@ -2,7 +2,7 @@
 
 module.exports = {
   setupFilesAfterEnv: [
-    '@openreachtech/jest-constructor-spy/config/setupAfterEnv.js',
+    '<rootDir>/tests/setupAfterEnv.js',
   ],
   testPathIgnorePatterns: [
     '/node_modules/'
