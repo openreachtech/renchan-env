@@ -61,7 +61,7 @@ Create env script as `path/as/you/like/app-env.js`
 
 ```js
 const {
-  EnvironmentFacade
+  EnvironmentFacade,
 } = require('@openreachtech/renchan-env')
 
 const facade = EnvironmentFacade.create()
