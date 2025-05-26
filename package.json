@@ -29,6 +29,7 @@
     "Renchan"
   ],
   "author": "Open Reach Tech",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/openreachtech/renchan-env/issues"
   },
