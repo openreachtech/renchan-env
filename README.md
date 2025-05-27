@@ -12,7 +12,7 @@
 
   | tools | version |
   | :-- | :-- |
-  | Node.js | ^20.14.0 |
+  | Node.js | ^20.19.2 |
   | npm | ^10.5.2 |
 
 * Create a `.npmrc` file in the root directory of your project and add any necessary configurations. This might be required for installing certain npm packages.
