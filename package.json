@@ -15,6 +15,12 @@
       "require": "./index.js",
       "node": "./index.js",
       "default": "./index.js"
+    },
+    "./scripts/*": {
+      "import": "./scripts/*.mjs",
+      "require": "./scripts/*.js",
+      "node": "./scripts/*.js",
+      "default": "./scripts/*.js"
     }
   },
   "scripts": {
