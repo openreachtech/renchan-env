@@ -42,10 +42,13 @@ describe('env.js', () => {
   })
 
   test('to access not defined key', () => {
-    const env = require('../../../app/typed-env')
+    const env = /** @type {Record<string, *>} */ (
+      require('../../../app/typed-env')
+    )
 
-    // NOTE: Should be error here.
-    expect(() => env.UNKNOWN_KEY)
-      .toThrow('environment variable is not defined [UNKNOWN_KEY]')
+    const actual = env.UNKNOWN_KEY
+
+    expect(actual)
+      .toBeNull()
   })
 })

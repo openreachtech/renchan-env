@@ -677,34 +677,34 @@ describe('EnvironmentFacade', () => {
       })
     })
 
-    describe('to throw by calling not existing member', () => {
+    describe('to be null by calling not existing member', () => {
+      const facade = EnvironmentFacade.create({
+        processEnv: {
+          NODE_ENV: 'development',
+        },
+      })
+
+      /** @type {Record<string, *>} */
+      const env = facade.generateFacade()
+
       const cases = [
         {
           args: {
             key: 'ALPHA_VALUE',
           },
-          expected: new Error('environment variable is not defined [ALPHA_VALUE]'),
         },
         {
           args: {
             key: 'BETA_VALUE',
           },
-          expected: new Error('environment variable is not defined [BETA_VALUE]'),
         },
       ]
 
-      test.each(cases)('key: $args.key', ({ args, expected }) => {
-        const facade = EnvironmentFacade.create({
-          processEnv: {
-            NODE_ENV: 'development',
-          },
-        })
+      test.each(cases)('key: $args.key', ({ args }) => {
+        const actual = env[args.key]
 
-        /** @type {object} */
-        const actual = facade.generateFacade()
-
-        expect(() => actual[args.key])
-          .toThrow(expected)
+        expect(actual)
+          .toBeNull()
       })
     })
   })
