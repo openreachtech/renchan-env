@@ -279,7 +279,7 @@ describe('DotenvLoader', () => {
         const loader = DotenvLoader.create(args)
 
         expect(() => loader.resolveDotenvPath())
-          .toThrowError('no NODE_ENV')
+          .toThrow('no NODE_ENV')
       })
     })
 
@@ -436,7 +436,7 @@ describe('DotenvLoader', () => {
         const loader = DotenvLoader.create(args)
 
         expect(() => loader.loadConfig())
-          .toThrowError(expected)
+          .toThrow(expected)
       })
     })
 
