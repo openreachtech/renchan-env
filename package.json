@@ -12,6 +12,7 @@
   "types": "./types/index.d.ts",
   "exports": {
     ".": {
+      "types": "./types/index.d.ts",
       "import": "./index.mjs",
       "require": "./index.js",
       "node": "./index.js",
