@@ -1,6 +1,6 @@
 {
   "name": "@openreachtech/renchan-env",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Env module - Renchan",
   "files": [
     "index.mjs",
@@ -9,8 +9,10 @@
     "types/"
   ],
   "main": "index.js",
+  "types": "./types/index.d.ts",
   "exports": {
     ".": {
+      "types": "./types/index.d.ts",
       "import": "./index.mjs",
       "require": "./index.js",
       "node": "./index.js",

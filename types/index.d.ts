@@ -1,15 +1,7 @@
-import DotenvLoader from '../lib/DotenvLoader'
-import EnvironmentFacade from '../lib/EnvironmentFacade'
-import EnvironmentResolver from '../lib/EnvironmentResolver'
 
-declare module '@openreachtech/renchan-env' {
-  const DotenvLoader: typeof DotenvLoader
-  const EnvironmentFacade: typeof EnvironmentFacade
-  const EnvironmentResolver: typeof EnvironmentResolver
+export { default as DotenvLoader } from '../lib/DotenvLoader.js'
+export { default as EnvironmentFacade } from '../lib/EnvironmentFacade.js'
+export { default as EnvironmentResolver } from '../lib/EnvironmentResolver.js'
 
-  export {
-    DotenvLoader,
-    EnvironmentFacade,
-    EnvironmentResolver,
-  }
-}
+export type EnvironmentFacadeInterface =
+  import('../lib/EnvironmentFacade.js').EnvironmentFacadeInterface
