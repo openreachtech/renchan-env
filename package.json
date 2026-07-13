@@ -9,6 +9,7 @@
     "types/"
   ],
   "main": "index.js",
+  "types": "./types/index.d.ts",
   "exports": {
     ".": {
       "import": "./index.mjs",
