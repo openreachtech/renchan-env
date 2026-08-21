@@ -117,7 +117,7 @@ console.log(env.UNKNOWN_KEY) // throws 'environment variable is not defined [UNK
 
 ## License
 
-This project is released under the MIT License.<br>
+This project is released under the Apache License 2.0.<br>
 See [here](./LICENSE)
 
 ## Contribution
