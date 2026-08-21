@@ -1,6 +1,6 @@
 {
   "name": "@openreachtech/renchan-env",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Env module - Renchan",
   "files": [
     "index.mjs",
