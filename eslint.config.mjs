@@ -15,6 +15,19 @@ export default [
 
   ...openreachtechConfig,
 
+  /*
+   * The sources of this package are CommonJS, while the shared config now assumes ESM.
+   * Only the two `.mjs` entries are modules, and they are ignored above.
+   */
+  {
+    files: [
+      '**/*.js',
+    ],
+    languageOptions: {
+      sourceType: 'commonjs',
+    },
+  },
+
   {
     rules: {
       'camelcase': 'off',
