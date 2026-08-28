@@ -1,6 +1,6 @@
 {
   "name": "@openreachtech/renchan-env",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Env module - Renchan",
   "files": [
     "index.mjs",
@@ -37,7 +37,7 @@
     "Renchan"
   ],
   "author": "Open Reach Tech Inc.",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/openreachtech/renchan-env/issues"
   },
