@@ -1,6 +1,6 @@
 {
   "name": "@openreachtech/renchan-env",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Env module - Renchan",
   "files": [
     "index.mjs",
@@ -46,7 +46,7 @@
     "dotenv": "^16.6.1"
   },
   "devDependencies": {
-    "@openreachtech/eslint-config": "^3.0.2",
+    "@openreachtech/eslint-config": "^4.5.0",
     "@openreachtech/jest-constructor-spy": "^1.1.1",
     "@types/jest": "^30.0.0",
     "eslint": "^9.39.2",
