@@ -7,3 +7,7 @@ const {
 globalThis.constructorSpy = ConstructorSpy.create({
   jest,
 })
+
+afterEach(() => {
+  jest.restoreAllMocks()
+})
