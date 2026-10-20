@@ -2,6 +2,7 @@
 
 const EnvironmentFacade = require('../../../lib/EnvironmentFacade')
 const EnvironmentResolver = require('../../../lib/EnvironmentResolver')
+const ValueSeparator = require('../../../lib/ValueSeparator')
 
 describe('EnvironmentFacade', () => {
   describe('constructor', () => {
@@ -176,6 +177,62 @@ describe('EnvironmentFacade', () => {
 })
 
 describe('EnvironmentFacade', () => {
+  describe('.get:ValueSeparatorCtor', () => {
+    test('to be ValueSeparator', () => {
+      const actual = EnvironmentFacade.ValueSeparatorCtor
+
+      expect(actual)
+        .toBe(ValueSeparator)
+    })
+  })
+})
+
+describe('EnvironmentFacade', () => {
+  describe('.createValueSeparator()', () => {
+    describe('to return instance of ValueSeparator', () => {
+      const cases = [
+        {
+          args: {
+            delimiter: '/',
+          },
+          expected: '/',
+        },
+        {
+          args: {},
+          expected: ',',
+        },
+      ]
+
+      test.each(cases)('delimiter: $args.delimiter', ({ args, expected }) => {
+        const valueSeparator = EnvironmentFacade.createValueSeparator(args)
+
+        expect(valueSeparator)
+          .toBeInstanceOf(ValueSeparator)
+        expect(valueSeparator)
+          .toHaveProperty('delimiter', expected)
+      })
+    })
+
+    describe('to call ValueSeparator.create()', () => {
+      test('with delimiter', () => {
+        const createSpy = jest.spyOn(ValueSeparator, 'create')
+
+        EnvironmentFacade.createValueSeparator({
+          delimiter: '/',
+        })
+
+        expect(createSpy)
+          .toHaveBeenCalledWith({
+            delimiter: '/',
+          })
+
+        createSpy.mockRestore()
+      })
+    })
+  })
+})
+
+describe('EnvironmentFacade', () => {
   describe('.createResolver()', () => {
     describe('to return instance of EnvironmentResolver', () => {
       const cases = [
@@ -228,6 +285,36 @@ describe('EnvironmentFacade', () => {
 
         expect(createSpy)
           .toHaveBeenCalledWith(args)
+      })
+    })
+  })
+})
+
+describe('EnvironmentFacade', () => {
+  describe('#get:Ctor', () => {
+    class ExtendedFacade extends EnvironmentFacade {}
+
+    describe('should be constructor of instance', () => {
+      const cases = [
+        {
+          input: { Facade: EnvironmentFacade },
+          expected: EnvironmentFacade,
+        },
+        {
+          input: { Facade: ExtendedFacade },
+          expected: ExtendedFacade,
+        },
+      ]
+
+      test.each(cases)('Facade: $input.Facade.name', ({ input, expected }) => {
+        const facade = new input.Facade({
+          environmentHash: {},
+        })
+
+        const received = facade.Ctor
+
+        expect(received)
+          .toBe(expected) // same reference
       })
     })
   })
