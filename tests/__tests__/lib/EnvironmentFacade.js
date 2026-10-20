@@ -188,6 +188,51 @@ describe('EnvironmentFacade', () => {
 })
 
 describe('EnvironmentFacade', () => {
+  describe('.createValueSeparator()', () => {
+    describe('to return instance of ValueSeparator', () => {
+      const cases = [
+        {
+          args: {
+            delimiter: '/',
+          },
+          expected: '/',
+        },
+        {
+          args: {},
+          expected: ',',
+        },
+      ]
+
+      test.each(cases)('delimiter: $args.delimiter', ({ args, expected }) => {
+        const valueSeparator = EnvironmentFacade.createValueSeparator(args)
+
+        expect(valueSeparator)
+          .toBeInstanceOf(ValueSeparator)
+        expect(valueSeparator)
+          .toHaveProperty('delimiter', expected)
+      })
+    })
+
+    describe('to call ValueSeparator.create()', () => {
+      test('with delimiter', () => {
+        const createSpy = jest.spyOn(ValueSeparator, 'create')
+
+        EnvironmentFacade.createValueSeparator({
+          delimiter: '/',
+        })
+
+        expect(createSpy)
+          .toHaveBeenCalledWith({
+            delimiter: '/',
+          })
+
+        createSpy.mockRestore()
+      })
+    })
+  })
+})
+
+describe('EnvironmentFacade', () => {
   describe('.createResolver()', () => {
     describe('to return instance of EnvironmentResolver', () => {
       const cases = [
