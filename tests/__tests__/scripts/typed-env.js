@@ -41,6 +41,15 @@ describe('env.js', () => {
       .toBe('development-api-key')
   })
 
+  test('to access defined key as array by `$$` of plain `env`', () => {
+    const env = require('../../../scripts/env')
+
+    expect(env.$$.API_HOST)
+      .toStrictEqual(['dev.openreach.tech'])
+    expect(env.$$.UNKNOWN_KEY)
+      .toStrictEqual([])
+  })
+
   test('to access not defined key', () => {
     const env = /** @type {Record<string, *>} */ (
       require('../../../app/typed-env')
