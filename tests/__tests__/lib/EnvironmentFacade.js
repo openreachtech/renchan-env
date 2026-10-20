@@ -2,6 +2,7 @@
 
 const EnvironmentFacade = require('../../../lib/EnvironmentFacade')
 const EnvironmentResolver = require('../../../lib/EnvironmentResolver')
+const ValueSeparator = require('../../../lib/ValueSeparator')
 
 describe('EnvironmentFacade', () => {
   describe('constructor', () => {
@@ -171,6 +172,17 @@ describe('EnvironmentFacade', () => {
         expect(received)
           .toBe('extended-0001')
       })
+    })
+  })
+})
+
+describe('EnvironmentFacade', () => {
+  describe('.get:ValueSeparatorCtor', () => {
+    test('to be ValueSeparator', () => {
+      const actual = EnvironmentFacade.ValueSeparatorCtor
+
+      expect(actual)
+        .toBe(ValueSeparator)
     })
   })
 })
