@@ -124,6 +124,54 @@ describe('EnvironmentFacade', () => {
           .toHaveBeenCalledWith(expected)
       })
     })
+
+    describe('should call createResolver() of own class', () => {
+      class ExtendedFacade extends EnvironmentFacade {
+        /**
+         * Create instance of EnvironmentResolver.
+         *
+         * @override
+         * @param {EnvironmentResolver.EnvironmentResolverFactoryParams} [params] - Parameters of factory method.
+         * @returns {EnvironmentResolver} An instance of EnvironmentResolver.
+         */
+        static createResolver ({
+          processEnv = process.env,
+        } = {}) {
+          return new EnvironmentResolver({
+            loadedDotenv: {
+              EXTENDED_KEY: 'extended-0001',
+            },
+            processEnv,
+          })
+        }
+      }
+
+      const cases = [
+        {
+          input: {
+            processEnv: {
+              NODE_ENV: 'development',
+            },
+          },
+        },
+        {
+          input: {
+            processEnv: {
+              NODE_ENV: 'extra',
+            },
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $input.processEnv.NODE_ENV', ({ input }) => {
+        const facade = ExtendedFacade.create(input)
+        const received = facade.env
+          .EXTENDED_KEY
+
+        expect(received)
+          .toBe('extended-0001')
+      })
+    })
   })
 })
 
