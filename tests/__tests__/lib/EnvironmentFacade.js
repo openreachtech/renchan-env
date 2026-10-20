@@ -234,6 +234,36 @@ describe('EnvironmentFacade', () => {
 })
 
 describe('EnvironmentFacade', () => {
+  describe('#get:Ctor', () => {
+    class ExtendedFacade extends EnvironmentFacade {}
+
+    describe('should be constructor of instance', () => {
+      const cases = [
+        {
+          input: { Facade: EnvironmentFacade },
+          expected: EnvironmentFacade,
+        },
+        {
+          input: { Facade: ExtendedFacade },
+          expected: ExtendedFacade,
+        },
+      ]
+
+      test.each(cases)('Facade: $input.Facade.name', ({ input, expected }) => {
+        const facade = new input.Facade({
+          environmentHash: {},
+        })
+
+        const received = facade.Ctor
+
+        expect(received)
+          .toBe(expected) // same reference
+      })
+    })
+  })
+})
+
+describe('EnvironmentFacade', () => {
   describe('#get:env', () => {
     const cases = [
       {
