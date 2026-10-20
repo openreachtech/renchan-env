@@ -6,9 +6,11 @@ const core = require('./index.js')
 export const DotenvLoader = core.DotenvLoader
 export const EnvironmentFacade = core.EnvironmentFacade
 export const EnvironmentResolver = core.EnvironmentResolver
+export const ValueSeparator = core.ValueSeparator
 
 export default {
   DotenvLoader,
   EnvironmentFacade,
   EnvironmentResolver,
+  ValueSeparator,
 }
