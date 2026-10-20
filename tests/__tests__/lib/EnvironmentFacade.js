@@ -424,6 +424,123 @@ describe('EnvironmentFacade', () => {
 })
 
 describe('EnvironmentFacade', () => {
+  describe('#get:$$', () => {
+    describe('to return array of comma-separated values', () => {
+      const cases = [
+        {
+          args: {
+            environmentHash: {
+              CORS_ORIGINS: 'https://alpha.example.com,https://beta.example.com',
+            },
+            key: 'CORS_ORIGINS',
+          },
+          expected: [
+            'https://alpha.example.com',
+            'https://beta.example.com',
+          ],
+        },
+        {
+          args: {
+            environmentHash: {
+              CORS_ORIGINS: 'https://alpha.example.com',
+            },
+            key: 'CORS_ORIGINS',
+          },
+          expected: [
+            'https://alpha.example.com',
+          ],
+        },
+        {
+          args: {
+            environmentHash: {
+              ALLOWED_HOSTS: ' alpha , beta ,gamma ',
+            },
+            key: 'ALLOWED_HOSTS',
+          },
+          expected: [
+            'alpha',
+            'beta',
+            'gamma',
+          ],
+        },
+        {
+          args: {
+            environmentHash: {
+              ALLOWED_HOSTS: 'alpha,,beta, ,',
+            },
+            key: 'ALLOWED_HOSTS',
+          },
+          expected: [
+            'alpha',
+            'beta',
+          ],
+        },
+      ]
+
+      test.each(cases)('key: $args.key, value: $args.environmentHash', ({ args, expected }) => {
+        const facade = new EnvironmentFacade(args)
+
+        const actual = facade.$$[args.key]
+
+        expect(actual)
+          .toStrictEqual(expected)
+      })
+    })
+
+    describe('to return empty array', () => {
+      const cases = [
+        {
+          args: {
+            environmentHash: {
+              CORS_ORIGINS: '',
+            },
+            key: 'CORS_ORIGINS',
+          },
+        },
+        {
+          args: {
+            environmentHash: {
+              CORS_ORIGINS: ' , ,',
+            },
+            key: 'CORS_ORIGINS',
+          },
+        },
+        {
+          args: {
+            environmentHash: {
+              NODE_ENV: 'development',
+            },
+            key: 'CORS_ORIGINS', // not defined
+          },
+        },
+      ]
+
+      test.each(cases)('key: $args.key, value: $args.environmentHash', ({ args }) => {
+        const facade = new EnvironmentFacade(args)
+
+        const actual = facade.$$[args.key]
+
+        expect(actual)
+          .toStrictEqual([])
+      })
+
+      test('with environmentHash resolved by EnvironmentResolver', () => {
+        const facade = EnvironmentFacade.create({
+          processEnv: {
+            NODE_ENV: 'development',
+          },
+        })
+
+        const actual = facade.$$.UNKNOWN_KEY
+
+        expect(actual)
+          .toStrictEqual([])
+      })
+    })
+  })
+})
+
+describe('EnvironmentFacade', () => {
   describe('#isProduction()', () => {
     describe('to be truthy', () => {
       const cases = [
