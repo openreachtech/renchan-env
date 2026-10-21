@@ -2,6 +2,7 @@
 
 const EnvironmentFacade = require('../../../lib/EnvironmentFacade')
 const EnvironmentResolver = require('../../../lib/EnvironmentResolver')
+const ValueSeparator = require('../../../lib/ValueSeparator')
 
 describe('EnvironmentFacade', () => {
   describe('constructor', () => {
@@ -124,6 +125,110 @@ describe('EnvironmentFacade', () => {
           .toHaveBeenCalledWith(expected)
       })
     })
+
+    describe('should call createResolver() of own class', () => {
+      class ExtendedFacade extends EnvironmentFacade {
+        /**
+         * Create instance of EnvironmentResolver.
+         *
+         * @override
+         * @param {EnvironmentResolver.EnvironmentResolverFactoryParams} [params] - Parameters of factory method.
+         * @returns {EnvironmentResolver} An instance of EnvironmentResolver.
+         */
+        static createResolver ({
+          processEnv = process.env,
+        } = {}) {
+          return new EnvironmentResolver({
+            loadedDotenv: {
+              EXTENDED_KEY: 'extended-0001',
+            },
+            processEnv,
+          })
+        }
+      }
+
+      const cases = [
+        {
+          input: {
+            processEnv: {
+              NODE_ENV: 'development',
+            },
+          },
+        },
+        {
+          input: {
+            processEnv: {
+              NODE_ENV: 'extra',
+            },
+          },
+        },
+      ]
+
+      test.each(cases)('NODE_ENV: $input.processEnv.NODE_ENV', ({ input }) => {
+        const facade = ExtendedFacade.create(input)
+        const received = facade.env
+          .EXTENDED_KEY
+
+        expect(received)
+          .toBe('extended-0001')
+      })
+    })
+  })
+})
+
+describe('EnvironmentFacade', () => {
+  describe('.get:ValueSeparatorCtor', () => {
+    test('to be ValueSeparator', () => {
+      const actual = EnvironmentFacade.ValueSeparatorCtor
+
+      expect(actual)
+        .toBe(ValueSeparator)
+    })
+  })
+})
+
+describe('EnvironmentFacade', () => {
+  describe('.createValueSeparator()', () => {
+    describe('to return instance of ValueSeparator', () => {
+      const cases = [
+        {
+          args: {
+            delimiter: '/',
+          },
+          expected: '/',
+        },
+        {
+          args: {},
+          expected: ',',
+        },
+      ]
+
+      test.each(cases)('delimiter: $args.delimiter', ({ args, expected }) => {
+        const valueSeparator = EnvironmentFacade.createValueSeparator(args)
+
+        expect(valueSeparator)
+          .toBeInstanceOf(ValueSeparator)
+        expect(valueSeparator)
+          .toHaveProperty('delimiter', expected)
+      })
+    })
+
+    describe('to call ValueSeparator.create()', () => {
+      test('with delimiter', () => {
+        const createSpy = jest.spyOn(ValueSeparator, 'create')
+
+        EnvironmentFacade.createValueSeparator({
+          delimiter: '/',
+        })
+
+        expect(createSpy)
+          .toHaveBeenCalledWith({
+            delimiter: '/',
+          })
+
+        createSpy.mockRestore()
+      })
+    })
   })
 })
 
@@ -180,6 +285,36 @@ describe('EnvironmentFacade', () => {
 
         expect(createSpy)
           .toHaveBeenCalledWith(args)
+      })
+    })
+  })
+})
+
+describe('EnvironmentFacade', () => {
+  describe('#get:Ctor', () => {
+    class ExtendedFacade extends EnvironmentFacade {}
+
+    describe('should be constructor of instance', () => {
+      const cases = [
+        {
+          input: { Facade: EnvironmentFacade },
+          expected: EnvironmentFacade,
+        },
+        {
+          input: { Facade: ExtendedFacade },
+          expected: ExtendedFacade,
+        },
+      ]
+
+      test.each(cases)('Facade: $input.Facade.name', ({ input, expected }) => {
+        const facade = new input.Facade({
+          environmentHash: {},
+        })
+
+        const received = facade.Ctor
+
+        expect(received)
+          .toBe(expected) // same reference
       })
     })
   })
@@ -283,6 +418,123 @@ describe('EnvironmentFacade', () => {
 
         expect(actual)
           .toBeNull()
+      })
+    })
+  })
+})
+
+describe('EnvironmentFacade', () => {
+  describe('#get:$$', () => {
+    describe('to return array of comma-separated values', () => {
+      const cases = [
+        {
+          args: {
+            environmentHash: {
+              CORS_ORIGINS: 'https://alpha.example.com,https://beta.example.com',
+            },
+            key: 'CORS_ORIGINS',
+          },
+          expected: [
+            'https://alpha.example.com',
+            'https://beta.example.com',
+          ],
+        },
+        {
+          args: {
+            environmentHash: {
+              CORS_ORIGINS: 'https://alpha.example.com',
+            },
+            key: 'CORS_ORIGINS',
+          },
+          expected: [
+            'https://alpha.example.com',
+          ],
+        },
+        {
+          args: {
+            environmentHash: {
+              ALLOWED_HOSTS: ' alpha , beta ,gamma ',
+            },
+            key: 'ALLOWED_HOSTS',
+          },
+          expected: [
+            'alpha',
+            'beta',
+            'gamma',
+          ],
+        },
+        {
+          args: {
+            environmentHash: {
+              ALLOWED_HOSTS: 'alpha,,beta, ,',
+            },
+            key: 'ALLOWED_HOSTS',
+          },
+          expected: [
+            'alpha',
+            'beta',
+          ],
+        },
+      ]
+
+      test.each(cases)('key: $args.key, value: $args.environmentHash', ({ args, expected }) => {
+        const facade = new EnvironmentFacade(args)
+
+        const actual = facade.$$[args.key]
+
+        expect(actual)
+          .toStrictEqual(expected)
+      })
+    })
+
+    describe('to return empty array', () => {
+      const cases = [
+        {
+          args: {
+            environmentHash: {
+              CORS_ORIGINS: '',
+            },
+            key: 'CORS_ORIGINS',
+          },
+        },
+        {
+          args: {
+            environmentHash: {
+              CORS_ORIGINS: ' , ,',
+            },
+            key: 'CORS_ORIGINS',
+          },
+        },
+        {
+          args: {
+            environmentHash: {
+              NODE_ENV: 'development',
+            },
+            key: 'CORS_ORIGINS', // not defined
+          },
+        },
+      ]
+
+      test.each(cases)('key: $args.key, value: $args.environmentHash', ({ args }) => {
+        const facade = new EnvironmentFacade(args)
+
+        const actual = facade.$$[args.key]
+
+        expect(actual)
+          .toStrictEqual([])
+      })
+
+      test('with environmentHash resolved by EnvironmentResolver', () => {
+        const facade = EnvironmentFacade.create({
+          processEnv: {
+            NODE_ENV: 'development',
+          },
+        })
+
+        const actual = facade.$$.UNKNOWN_KEY
+
+        expect(actual)
+          .toStrictEqual([])
       })
     })
   })
