@@ -83,6 +83,51 @@ const client = new ApiClient({
 })
 ```
 
+### Reading a value as an array
+
+`env.$$` reads each environment variable as an array of values.
+
+Values are separated by `,`, trimmed, and empty values are dropped.
+
+```
+CORS_ORIGINS = https://alpha.example.com, https://beta.example.com
+```
+
+```js
+const env = require('path/as/you/like/app-env')
+
+console.log(env.$$.CORS_ORIGINS) // ['https://alpha.example.com', 'https://beta.example.com']
+```
+
+An undefined key does not throw, and gives an empty array.
+
+```js
+console.log(env.$$.UNKNOWN_KEY) // []
+```
+
+### Separating a value with `ValueSeparator`
+
+`env.$$` separates values by `,` only.
+To use another delimiter, create `ValueSeparator` with the `delimiter` option.
+
+| notation | description |
+| :-- | :-- |
+| `.create({ delimiter })` | Create an instance. `delimiter` is `,` by default. |
+| `#separateValue({ value })` | Separate `value` into an array of trimmed and not empty values. Gives an empty array when `value` is `null` or empty. |
+
+```js
+const {
+  ValueSeparator,
+} = require('@openreachtech/renchan-env')
+
+const alphaSeparator = ValueSeparator.create({
+  delimiter: ';',
+})
+
+console.log(alphaSeparator.separateValue({ value: 'alpha; beta;;gamma' })) // ['alpha', 'beta', 'gamma']
+console.log(alphaSeparator.separateValue({ value: null })) // []
+```
+
 ## Exceptions
 
 ### No .env file
