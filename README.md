@@ -83,6 +83,28 @@ const client = new ApiClient({
 })
 ```
 
+### Reading a value as an array
+
+`env.$$` reads each environment variable as an array of values.
+
+Values are separated by `,`, trimmed, and empty values are dropped.
+
+```
+CORS_ORIGINS = https://alpha.example.com, https://beta.example.com
+```
+
+```js
+const env = require('path/as/you/like/app-env')
+
+console.log(env.$$.CORS_ORIGINS) // ['https://alpha.example.com', 'https://beta.example.com']
+```
+
+An undefined key does not throw, and gives an empty array.
+
+```js
+console.log(env.$$.UNKNOWN_KEY) // []
+```
+
 ## Exceptions
 
 ### No .env file
