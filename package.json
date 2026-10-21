@@ -42,7 +42,7 @@
     "url": "https://github.com/openreachtech/renchan-env/issues"
   },
   "homepage": "https://github.com/openreachtech/renchan-env#readme",
-  "dependencies": {
+  "peerDependencies": {
     "dotenv": "^16.6.1"
   },
   "devDependencies": {
