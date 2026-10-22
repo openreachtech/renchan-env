@@ -154,8 +154,9 @@ console.log(env.UNKNOWN_KEY) // throws 'environment variable is not defined [UNK
 
 ## License
 
-This project is released under the Apache License 2.0.<br>
-See [here](./LICENSE)
+This project is released under the Apache License 2.0.
+
+For more details, please see [in the LICENSE file](./LICENSE).
 
 ## Contribution
 
