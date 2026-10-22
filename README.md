@@ -177,4 +177,4 @@ npm test
 
 ## Copyright
 
-© 2024 Open Reach Tech Inc.
+© 2022 Open Reach Tech Inc.
