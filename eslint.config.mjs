@@ -29,6 +29,15 @@ export default [
   },
 
   {
+    files: [
+      'tests/**/*.js',
+    ],
+    rules: {
+      'max-classes-per-file': 'off',
+    },
+  },
+
+  {
     rules: {
       'camelcase': 'off',
       'id-length': 'off',

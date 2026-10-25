@@ -2,7 +2,7 @@
 
 module.exports = {
   setupFilesAfterEnv: [
-    '<rootDir>/tests/setupAfterEnv.js',
+    '<rootDir>/tests/setup-after-env.js',
   ],
   testPathIgnorePatterns: [
     '/node_modules/'
